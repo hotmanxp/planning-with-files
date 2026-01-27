@@ -1,16 +1,16 @@
-# Clawd CLI Setup
+# Moltbot Setup
 
-How to use planning-with-files with [Clawd CLI](https://clawd.bot).
+How to use planning-with-files with [Moltbot](https://molt.bot).
 
 ---
 
 ## What This Integration Adds
 
-- Workspace skill: `.clawd/skills/planning-with-files/`
+- Workspace skill: `.moltbot/skills/planning-with-files/`
 - Full templates, scripts, and reference documentation
 - Cross-platform support (macOS, Linux, Windows)
 
-Clawd CLI supports three skill locations (in precedence order):
+Moltbot supports three skill locations (in precedence order):
 1. **Workspace skills** (highest priority): `<workspace>/skills/`
 2. **Managed/local skills**: `~/.clawdbot/skills/`
 3. **Bundled skills** (lowest priority): shipped with install
@@ -25,8 +25,8 @@ Copy the skill to your project:
 # Clone the repo
 git clone https://github.com/OthmanAdi/planning-with-files.git
 
-# Copy the Clawd skill to your workspace
-cp -r planning-with-files/.clawd/skills/planning-with-files skills/
+# Copy the Moltbot skill to your workspace
+cp -r planning-with-files/.moltbot/skills/planning-with-files skills/
 
 # Clean up
 rm -rf planning-with-files
@@ -36,28 +36,18 @@ rm -rf planning-with-files
 
 ## Installation (Global)
 
-Install to your local Clawd skills directory:
+Install to your local Moltbot skills directory:
 
 ```bash
 # Clone the repo
 git clone https://github.com/OthmanAdi/planning-with-files.git
 
-# Copy to global Clawd skills
+# Copy to global Moltbot skills
 mkdir -p ~/.clawdbot/skills
-cp -r planning-with-files/.clawd/skills/planning-with-files ~/.clawdbot/skills/
+cp -r planning-with-files/.moltbot/skills/planning-with-files ~/.clawdbot/skills/
 
 # Clean up
 rm -rf planning-with-files
-```
-
----
-
-## Installation (ClawdHub)
-
-If available on ClawdHub:
-
-```bash
-clawdhub install planning-with-files
 ```
 
 ---
@@ -66,17 +56,17 @@ clawdhub install planning-with-files
 
 ```bash
 # List all skills
-clawdbot skills list
+moltbot skills list
 
 # Check if planning-with-files is loaded
-clawdbot skills info planning-with-files
+moltbot skills info planning-with-files
 ```
 
 ---
 
 ## Usage
 
-1. Start a Clawd session in your project directory
+1. Start a Moltbot session in your project directory
 2. For complex tasks, the skill will guide you to create:
    - `task_plan.md` — Phase tracking and decisions
    - `findings.md` — Research and discoveries
@@ -104,7 +94,7 @@ bash skills/planning-with-files/scripts/check-complete.sh
 
 ## Configuration (Optional)
 
-Configure the skill in `~/.clawdbot/clawdbot.json`:
+Configure the skill in `~/.clawdbot/moltbot.json`:
 
 ```json5
 {
@@ -122,7 +112,7 @@ Configure the skill in `~/.clawdbot/clawdbot.json`:
 
 ## Notes
 
-- Clawd CLI snapshots eligible skills when a session starts
+- Moltbot snapshots eligible skills when a session starts
 - Workspace skills take precedence over bundled skills
 - The skill works on all platforms: macOS, Linux, and Windows
 - Planning files are tool-agnostic and work across Claude Code, Cursor, and other IDEs

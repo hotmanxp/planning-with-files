@@ -18,7 +18,7 @@ A Claude Code plugin that transforms your workflow to use persistent markdown fi
 [![Cursor Skills](https://img.shields.io/badge/Cursor-Skills-purple)](https://docs.cursor.com/context/skills)
 [![Kilocode Skills](https://img.shields.io/badge/Kilocode-Skills-orange)](https://kilo.ai/docs/agent-behavior/skills)
 [![Gemini CLI](https://img.shields.io/badge/Gemini%20CLI-Skills-4285F4)](https://geminicli.com/docs/cli/skills/)
-[![Clawd CLI](https://img.shields.io/badge/Clawd%20CLI-Skills-FF6B6B)](https://docs.clawd.bot/tools/skills)
+[![Moltbot](https://img.shields.io/badge/Moltbot-Skills-FF6B6B)](https://docs.molt.bot/tools/skills)
 [![Kiro](https://img.shields.io/badge/Kiro-Steering-00D4AA)](https://kiro.dev/docs/cli/steering/)
 [![AdaL CLI](https://img.shields.io/badge/AdaL%20CLI-Skills-9B59B6)](https://docs.sylph.ai/features/plugins-and-skills)
 [![Version](https://img.shields.io/badge/version-2.12.0-brightgreen)](https://github.com/OthmanAdi/planning-with-files/releases)
@@ -62,7 +62,7 @@ See [docs/installation.md](docs/installation.md) for all installation methods.
 |-----|--------|-------------------|--------|
 | Claude Code | ✅ Full Support | [Installation](docs/installation.md) | Plugin + SKILL.md |
 | Gemini CLI | ✅ Full Support | [Gemini Setup](docs/gemini.md) | Agent Skills |
-| Clawd CLI | ✅ Full Support | [Clawd Setup](docs/clawd.md) | Workspace/Local Skills |
+| Moltbot | ✅ Full Support | [Moltbot Setup](docs/moltbot.md) | Workspace/Local Skills |
 | Kiro | ✅ Full Support | [Kiro Setup](docs/kiro.md) | Steering Files |
 | Cursor | ✅ Full Support | [Cursor Setup](docs/cursor.md) | Skills |
 | Continue | ✅ Full Support | [Continue Setup](docs/continue.md) | Skills + Prompt files |
@@ -85,7 +85,7 @@ See [docs/installation.md](docs/installation.md) for all installation methods.
 | [Workflow Diagram](docs/workflow.md) | Visual diagram of how files and hooks interact |
 | [Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
 | [Gemini CLI Setup](docs/gemini.md) | Google Gemini CLI integration guide |
-| [Clawd CLI Setup](docs/clawd.md) | Clawd CLI integration guide |
+| [Moltbot Setup](docs/moltbot.md) | Moltbot integration guide |
 | [Kiro Setup](docs/kiro.md) | Kiro steering files integration |
 | [Cursor Setup](docs/cursor.md) | Cursor IDE-specific instructions |
 | [Continue Setup](docs/continue.md) | Continue integration guide (skills + slash prompt) |
@@ -105,7 +105,7 @@ See [docs/installation.md](docs/installation.md) for all installation methods.
 | **v2.12.0** (current) | AdaL CLI / Sylph AI support | `claude plugins install OthmanAdi/planning-with-files` |
 | **v2.11.0** | `/plan` command for easier autocomplete | See [releases](https://github.com/OthmanAdi/planning-with-files/releases) |
 | **v2.10.0** | Kiro steering files support | See [releases](https://github.com/OthmanAdi/planning-with-files/releases) |
-| **v2.9.0** | Clawd CLI support | See [releases](https://github.com/OthmanAdi/planning-with-files/releases) |
+| **v2.9.0** | Moltbot (formerly Clawd CLI) support | See [releases](https://github.com/OthmanAdi/planning-with-files/releases) |
 | **v2.8.0** | Continue IDE support, POSIX sh compatibility fix | See [releases](https://github.com/OthmanAdi/planning-with-files/releases) |
 | **v2.7.1** | Dynamic Python detection fix | See [releases](https://github.com/OthmanAdi/planning-with-files/releases) |
 | **v2.7.0** | Gemini CLI support | See [releases](https://github.com/OthmanAdi/planning-with-files/releases) |
