@@ -1,0 +1,14 @@
+prompt = """
+Resume a previously started task.
+
+First, check for an active task by running:
+!{node ${extensionPath}/commands/scripts/resume-task.js}
+
+If a task is found:
+1. Read the task_plan.md to understand current progress
+2. Review findings.md for any research notes
+3. Check progress.md for the last session log
+4. Continue from where you left off
+
+If no task is found, inform the user that there is no active task to resume.
+"""

@@ -1,0 +1,21 @@
+prompt = """
+Start a planning session for the task: {{args}}
+
+First, set the current task by running:
+!{node ${extensionPath}/commands/scripts/set-current-task.js {{args}}}
+
+Then create the 3 planning files using the templates:
+
+1. Copy task_plan.md template to the task directory:
+   !{cp ${extensionPath}/templates/task_plan.md ${TASK_DIR}/task_plan.md}
+   Then customize it for this task.
+
+2. Create findings.md in the task directory for research notes.
+
+3. Create progress.md in the task directory for session logs.
+
+Remember:
+- Context Window = RAM (volatile, limited)
+- Filesystem = Disk (persistent, unlimited)
+- Anything important gets written to disk.
+"""

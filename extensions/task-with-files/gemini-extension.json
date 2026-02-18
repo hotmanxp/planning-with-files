@@ -1,0 +1,22 @@
+{
+  "name": "task-with-files",
+  "version": "1.0.0",
+  "description": "Transform your workflow to use persistent markdown files for planning, progress tracking, and knowledge storage — work like Manus, the AI agent company Meta acquired for $2 billion.",
+  "contextFileName": "GEMINI.md",
+  "settings": [
+    {
+      "name": "Working Directory Base",
+      "description": "Base directory for task working directories",
+      "envVar": "TASK_WITH_FILES_WORKING_DIR",
+      "sensitive": false,
+      "default": "${workspacePath}${/}.agent_working_dir"
+    },
+    {
+      "name": "Auto Compact Disabled",
+      "description": "Set to true to disable auto-compact for maximizing context before clearing",
+      "envVar": "TASK_WITH_FILES_AUTO_COMPACT_DISABLED",
+      "sensitive": false,
+      "default": "true"
+    }
+  ]
+}

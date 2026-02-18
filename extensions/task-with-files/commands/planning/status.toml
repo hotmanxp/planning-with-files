@@ -1,0 +1,11 @@
+prompt = """
+Show the current planning progress at a glance.
+
+Read the task_plan.md file and display:
+1. Current phase and status
+2. Completed items (checked boxes)
+3. Pending items (unchecked boxes)
+4. Any logged errors or blockers
+
+Format the output as a clear status report.
+"""

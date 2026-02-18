@@ -1,0 +1,12 @@
+prompt = """
+Check if the planning session is complete.
+
+Verify:
+1. All phases in task_plan.md are checked
+2. All findings are documented in findings.md
+3. Session log in progress.md is complete
+4. Final deliverables are created
+
+If complete, summarize what was accomplished.
+If incomplete, list remaining items.
+"""
