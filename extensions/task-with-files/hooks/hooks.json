@@ -1,28 +1,5 @@
 {
   "hooks": {
-    "PreToolUse": [
-      {
-        "type": "command",
-        "command": "node",
-        "args": ["${extensionPath}${/}scripts${/}pre-tool-use.js"],
-        "cwd": "${extensionPath}",
-        "env": {
-          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}"
-        }
-      }
-    ],
-    "PostToolUse": [
-      {
-        "type": "command",
-        "command": "node",
-        "args": ["${extensionPath}${/}scripts${/}post-tool-use.js"],
-        "cwd": "${extensionPath}",
-        "env": {
-          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}",
-          "WORKSPACE_PATH": "${workspacePath}"
-        }
-      }
-    ],
     "SessionStart": [
       {
         "type": "command",
@@ -36,7 +13,30 @@
         }
       }
     ],
-    "Stop": [
+    "BeforeTool": [
+      {
+        "type": "command",
+        "command": "node",
+        "args": ["${extensionPath}${/}scripts${/}pre-tool-use.js"],
+        "cwd": "${extensionPath}",
+        "env": {
+          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}"
+        }
+      }
+    ],
+    "AfterTool": [
+      {
+        "type": "command",
+        "command": "node",
+        "args": ["${extensionPath}${/}scripts${/}post-tool-use.js"],
+        "cwd": "${extensionPath}",
+        "env": {
+          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}",
+          "WORKSPACE_PATH": "${workspacePath}"
+        }
+      }
+    ],
+    "SessionEnd": [
       {
         "type": "command",
         "command": "node",

@@ -107,9 +107,9 @@ Examples:
 
 This extension uses hooks to:
 - **SessionStart**: Check for previous task, inform user they can resume
-- **PreToolUse**: Read current_task.json, remind to re-read plan
-- **PostToolUse**: Read current_task.json, remind to update files
-- **Stop**: Verify completion, reset current_task.json when all tasks done
+- **BeforeTool**: Read current_task.json, remind to re-read plan
+- **AfterTool**: Read current_task.json, remind to update files
+- **SessionEnd**: Verify completion, reset current_task.json when all tasks done
 
 ## Acknowledgments
 
