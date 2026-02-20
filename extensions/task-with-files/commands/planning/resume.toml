@@ -1,14 +1,40 @@
 prompt = """
-Resume a previously started task.
+Resume a previously started planning task.
 
-First, check for an active task by running:
-!{node ${extensionPath}/commands/scripts/resume-task.js}
+STEP 1: Check for active task
+Run: !{node ${extensionPath}/commands/scripts/resume-task.js}
 
-If a task is found:
-1. Read the task_plan.md to understand current progress
-2. Review findings.md for any research notes
-3. Check progress.md for the last session log
-4. Continue from where you left off
+If TASK_RESUMED=true:
+- A task directory was found
+- Planning files exist
+- You can proceed to resume
 
-If no task is found, inform the user that there is no active task to resume.
+If TASK_RESUMED=false:
+- No active task found
+- Inform the user there's nothing to resume
+- Suggest using /planning:start [task-name] to create a new task
+
+STEP 2: Load context (if task found)
+Read these files in order:
+1. task_plan.md - Review goal, current phase, and remaining tasks
+2. findings.md - Understand what was learned/discovered
+3. progress.md - See what was done in previous sessions
+
+STEP 3: Restore context
+Summarize for the user:
+- Current phase and status
+- Goal of the task
+- What was completed last session
+- What needs to be done next
+
+STEP 4: Resume work
+Continue from where you left off:
+- Complete any in_progress tasks
+- Update phase status as needed
+- Log new actions in progress.md
+
+Remember:
+- Re-read the plan before major decisions
+- Update findings.md after every 2 view/read operations (2-Action Rule)
+- Log all errors in task_plan.md
 """

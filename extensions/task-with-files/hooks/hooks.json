@@ -2,50 +2,88 @@
   "hooks": {
     "SessionStart": [
       {
-        "type": "command",
-        "command": "node",
-        "args": ["${extensionPath}${/}scripts${/}session-start.js"],
-        "cwd": "${extensionPath}",
-        "env": {
-          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}",
-          "WORKSPACE_PATH": "${workspacePath}",
-          "EXTENSION_PATH": "${extensionPath}"
-        }
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${extensionPath}${/}scripts${/}session-start.js"],
+            "cwd": "${extensionPath}",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}",
+              "EXTENSION_PATH": "${extensionPath}"
+            }
+          }
+        ]
       }
     ],
     "BeforeTool": [
       {
-        "type": "command",
-        "command": "node",
-        "args": ["${extensionPath}${/}scripts${/}pre-tool-use.js"],
-        "cwd": "${extensionPath}",
-        "env": {
-          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}"
-        }
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${extensionPath}${/}scripts${/}pre-tool-use.js"],
+            "cwd": "${extensionPath}"
+          }
+        ]
       }
     ],
     "AfterTool": [
       {
-        "type": "command",
-        "command": "node",
-        "args": ["${extensionPath}${/}scripts${/}post-tool-use.js"],
-        "cwd": "${extensionPath}",
-        "env": {
-          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}",
-          "WORKSPACE_PATH": "${workspacePath}"
-        }
+        "matcher": "read_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${extensionPath}${/}scripts${/}after-read-file.js"],
+            "cwd": "${extensionPath}",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": "write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${extensionPath}${/}scripts${/}after-write-file.js"],
+            "cwd": "${extensionPath}",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}"
+            }
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${extensionPath}${/}scripts${/}post-tool-use.js"],
+            "cwd": "${extensionPath}",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}"
+            }
+          }
+        ]
       }
     ],
     "SessionEnd": [
       {
-        "type": "command",
-        "command": "node",
-        "args": ["${extensionPath}${/}scripts${/}session-stop.js"],
-        "cwd": "${extensionPath}",
-        "env": {
-          "WORKING_DIR_BASE": "${env:TASK_WITH_FILES_WORKING_DIR:${workspacePath}${/}.agent_working_dir}",
-          "WORKSPACE_PATH": "${workspacePath}"
-        }
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${extensionPath}${/}scripts${/}session-stop.js"],
+            "cwd": "${extensionPath}",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}"
+            }
+          }
+        ]
       }
     ]
   }

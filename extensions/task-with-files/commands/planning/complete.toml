@@ -1,12 +1,43 @@
 prompt = """
-Check if the planning session is complete.
+Verify and complete the planning session.
 
-Verify:
-1. All phases in task_plan.md are checked
-2. All findings are documented in findings.md
-3. Session log in progress.md is complete
-4. Final deliverables are created
+STEP 1: Check task completion
+Read task_plan.md and verify:
+1. All phases marked as **Status:** complete
+2. All checkboxes are checked (- [x])
+3. No pending tasks remain
 
-If complete, summarize what was accomplished.
-If incomplete, list remaining items.
+STEP 2: Verify documentation
+Check that all files are complete:
+1. task_plan.md - All phases done, decisions documented
+2. findings.md - Research and decisions captured
+3. progress.md - Session logs complete with test results
+
+STEP 3: Generate completion report
+If complete, create a summary including:
+- Original goal
+- What was accomplished (by phase)
+- Key decisions made
+- Deliverables created
+- Files modified/created
+
+If incomplete, list:
+- Remaining phases
+- Incomplete tasks
+- Suggested next steps
+
+STEP 4: Reset current_task.json (if complete)
+Only if ALL phases are complete:
+Run: !{node -e "const fs=require('fs'); fs.writeFileSync('${workspacePath}/.agent_working_dir/current_task.json', JSON.stringify({current: null}, null, 2));"}
+
+This marks the task as complete and allows starting fresh.
+
+STEP 5: Provide deliverables
+Summarize what the user can now use:
+- Code files created
+- Documentation written
+- Tests passing
+- Any deployment instructions
+
+Remember: Only mark complete if ALL work is truly done.
 """

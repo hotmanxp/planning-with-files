@@ -253,11 +253,6 @@ Before stopping, verify:
 - `/planning:status` - Show progress report
 - `/planning:complete` - Verify completion (resets current_task.json when done)
 
-## Environment Variables
-
-- `TASK_WITH_FILES_WORKING_DIR` - Base directory (default: `${workspacePath}/.agent_working_dir`)
-- `CURRENT_TASK_NAME` - Current task name for directory generation
-
 ## Related Documentation
 
 - **Planning Guidelines** — `${extensionPath}/docs/planning.md` (complete planning process)

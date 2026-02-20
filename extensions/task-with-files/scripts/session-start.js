@@ -1,41 +1,63 @@
+#!/usr/bin/env node
 /**
  * @license
  * Copyright 2026 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// SessionStart hook - Initialize session
-// Note: Does NOT automatically resume tasks. User must run /planning:resume to resume.
-const workingDirBase = process.env.WORKING_DIR_BASE || `${process.cwd()}/.agent_working_dir`;
+/**
+ * SessionStart Hook
+ * 
+ * Initializes session and checks for resumable tasks.
+ * Does NOT automatically resume - user must run /planning:resume
+ * 
+ * Note: Always exits with code 0 to avoid blocking session start
+ */
+
+import { readFileSync, mkdirSync, existsSync } from 'fs';
+import { join } from 'path';
+
 const workspacePath = process.env.WORKSPACE_PATH || process.cwd();
+const extensionPath = process.env.EXTENSION_PATH || '';
 
-const fs = require("fs");
-const path = require("path");
+// Clean environment variables
+const clean = (str) => str ? str.trim().replace(/^["']|["']$/g, '') : '';
 
-const currentTaskFile = path.join(workingDirBase, "current_task.json");
+const cleanWorkspacePath = clean(workspacePath);
+const workingDirBase = join(process.cwd(), '.agent_working_dir');
 
-// Ensure working directory base exists
-if (!fs.existsSync(workingDirBase)) {
-  fs.mkdirSync(workingDirBase, { recursive: true });
-  console.log(`[task-with-files] Created working directory: ${workingDirBase}`);
-}
+const currentTaskFile = join(workingDirBase, 'current_task.json');
 
-// Read current_task.json to show current task (if any)
-let currentTaskData = { current: null };
-if (fs.existsSync(currentTaskFile)) {
-  try {
-    currentTaskData = JSON.parse(fs.readFileSync(currentTaskFile, "utf-8"));
-    if (currentTaskData.current) {
-      console.log(`[task-with-files] SessionStart: Previous task available for resume: ${currentTaskData.current}`);
-      console.log(`[task-with-files] SessionStart: Run /planning:resume to continue`);
-    } else {
-      console.log(`[task-with-files] SessionStart: No active task (current_task.json is empty)`);
-    }
-  } catch (e) {
-    console.log(`[task-with-files] SessionStart: current_task.json is invalid`);
+try {
+  // Ensure working directory exists
+  if (!existsSync(cleanWorkingDir)) {
+    mkdirSync(cleanWorkingDir, { recursive: true });
+    console.log(`[task-with-files] Created working directory: ${cleanWorkingDir}`);
   }
-} else {
-  console.log(`[task-with-files] SessionStart: No current_task.json found (new session)`);
+
+  // Check for current task
+  if (existsSync(currentTaskFile)) {
+    try {
+      const currentTaskData = JSON.parse(readFileSync(currentTaskFile, 'utf-8'));
+      if (currentTaskData.current) {
+        console.log(`[task-with-files] Previous task available: ${currentTaskData.current}`);
+        console.log('[task-with-files] Run /planning:resume to continue');
+      } else {
+        console.log('[task-with-files] No active task (current_task.json is empty)');
+      }
+    } catch (parseErr) {
+      // Non-fatal error, continue
+      console.log(`[task-with-files] Could not read current_task.json`);
+    }
+  } else {
+    console.log('[task-with-files] No current_task.json found (new session)');
+  }
+
+  console.log(`[task-with-files] Workspace: ${cleanWorkspacePath}`);
+} catch (err) {
+  // Log error but don't fail - hooks should be best-effort
+  console.log(`[task-with-files] SessionStart: ${err.message}`);
 }
 
-console.log(`[task-with-files] Workspace: ${workspacePath}`);
+// Always exit with 0 to avoid blocking session start
+process.exit(0);
