@@ -23,10 +23,11 @@ const extensionPath = process.env.EXTENSION_PATH || '';
 // Clean environment variables
 const clean = (str) => str ? str.trim().replace(/^["']|["']$/g, '') : '';
 
-const cleanWorkspacePath = clean(workspacePath);
 const workingDirBase = join(process.cwd(), '.agent_working_dir');
+const cleanWorkingDir = clean(workingDirBase);
+const cleanWorkspacePath = clean(workspacePath);
 
-const currentTaskFile = join(workingDirBase, 'current_task.json');
+const currentTaskFile = join(cleanWorkingDir, 'current_task.json');
 
 try {
   // Ensure working directory exists
