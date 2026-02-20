@@ -5,10 +5,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/ethan/.gemini/extensions/task-with-files/scripts/session_start.py",
+            "command": "python3 $EXTENSION_PATH/scripts/session_start.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
-              "EXTENSION_PATH": "/Users/ethan/.gemini/extensions/task-with-files"
+              "EXTENSION_PATH": "${extensionPath}"
             }
           }
         ]
@@ -19,9 +19,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/ethan/.gemini/extensions/task-with-files/scripts/pre_tool_use.py",
+            "command": "python3 $EXTENSION_PATH/scripts/pre_tool_use.py",
             "env": {
-              "EXTENSION_PATH": "/Users/ethan/.gemini/extensions/task-with-files"
+              "EXTENSION_PATH": "${extensionPath}"
             }
           }
         ]
@@ -33,10 +33,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/ethan/.gemini/extensions/task-with-files/scripts/after_read_file.py",
+            "command": "python3 $EXTENSION_PATH/scripts/after_read_file.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
-              "EXTENSION_PATH": "/Users/ethan/.gemini/extensions/task-with-files"
+              "EXTENSION_PATH": "${extensionPath}"
             }
           }
         ]
@@ -46,10 +46,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/ethan/.gemini/extensions/task-with-files/scripts/after_write_file.py",
+            "command": "python3 $EXTENSION_PATH/scripts/after_write_file.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
-              "EXTENSION_PATH": "/Users/ethan/.gemini/extensions/task-with-files"
+              "EXTENSION_PATH": "${extensionPath}"
             }
           }
         ]
@@ -58,10 +58,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/ethan/.gemini/extensions/task-with-files/scripts/post_tool_use.py",
+            "command": "python3 $EXTENSION_PATH/scripts/post_tool_use.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
-              "EXTENSION_PATH": "/Users/ethan/.gemini/extensions/task-with-files"
+              "EXTENSION_PATH": "${extensionPath}"
             }
           }
         ]
@@ -72,10 +72,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/ethan/.gemini/extensions/task-with-files/scripts/session_end.py",
+            "command": "python3 $EXTENSION_PATH/scripts/session_end.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
-              "EXTENSION_PATH": "/Users/ethan/.gemini/extensions/task-with-files"
+              "EXTENSION_PATH": "${extensionPath}"
             }
           }
         ]
