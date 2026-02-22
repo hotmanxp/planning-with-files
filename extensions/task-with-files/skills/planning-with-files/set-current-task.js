@@ -7,19 +7,19 @@
 
 /**
  * Set Current Task Script
- * 
+ *
  * Called by /planning:start command
  * Creates task directory and initializes current_task.json
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, copyFileSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Extension path is 2 levels up from commands/scripts/
+// Extension path is 2 levels up from skills/planning-with-files/
 const extensionPath = resolve(__dirname, '..', '..');
 
 const workspacePath = process.env.WORKSPACE_PATH || process.cwd();

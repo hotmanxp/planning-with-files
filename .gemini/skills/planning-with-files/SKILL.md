@@ -7,6 +7,38 @@ description: Implements Manus-style file-based planning for complex tasks. Creat
 
 Work like Manus: Use persistent markdown files as your "working memory on disk."
 
+## 可用工具
+
+### LSP 代码分析工具
+
+本技能集成了 LSP 代码分析工具，允许 agent 在需要时进行代码分析：
+
+**可用操作：**
+- `analyzeSymbol` - 分析符号（定义 + 引用）
+- `findImplementations` - 查找实现
+- `getCodeDiagnostics` - 获取代码诊断
+- `searchSymbols` - 符号搜索
+- `analyzeCallHierarchy` - 调用层次分析
+- `getHoverInfo` - 获取悬停信息
+- `getDocumentSymbols` - 获取文档符号
+
+**使用场景：**
+1. **代码理解**: 在开始任务前分析代码结构
+2. **代码重构**: 分析代码依赖和调用关系
+3. **问题排查**: 检查代码错误和警告
+
+**示例：**
+```json
+{
+  "operation": "analyzeSymbol",
+  "filePath": "src/index.ts",
+  "line": 10,
+  "character": 5
+}
+```
+
+详细文档见：`/Users/ethan/code/gemini-cli/.agent_working_dir/task_lsp_tool_refactor_2026-02-20/LSP_TOOL_USAGE.md`
+
 ## Important: Where Files Go
 
 - **Templates** are in this skill's `templates/` folder

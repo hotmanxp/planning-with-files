@@ -1,0 +1,19 @@
+description = "查看当前任务进度"
+prompt = """
+First, check the current task status:
+```
+!{ cat .agent_working_dir/current_task.json 2>/dev/null || echo '{"current": null}' }
+```
+
+If current is null or the file doesn't exist:
+- Tell the user "No active task. Would you like to start a new task with /task:start [your-task-description]?"
+
+Otherwise, show the current planning progress at a glance.
+
+Use the **planning-with-files** skill to:
+1. Read task_plan.md from current task directory
+2. Display task overview, phase status table, and next steps
+3. Show recent activity from progress.md
+
+Format as a visual status report with markdown tables and checkboxes.
+"""

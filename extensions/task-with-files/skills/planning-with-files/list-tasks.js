@@ -7,7 +7,7 @@
 
 /**
  * List Tasks Script
- * 
+ *
  * Lists all tasks in the working directory
  * Called by /planning:list command
  */
@@ -33,7 +33,7 @@ try {
   // Get current task
   const currentTaskFile = join(cleanWorkingDir, 'current_task.json');
   let currentTaskDir = null;
-  
+
   if (existsSync(currentTaskFile)) {
     try {
       const currentTaskData = JSON.parse(readFileSync(currentTaskFile, 'utf-8'));
@@ -57,7 +57,8 @@ try {
         isCurrent: currentTaskDir && taskDir === currentTaskDir
       };
     })
-    .sort((a, b) => b.modified - a.modified); // Most recent first
+    .sort((a, b) => b.modified - a.modified)
+    .slice(0, 5);
 
   if (taskDirs.length === 0) {
     console.log('[task-with-files] No tasks found');
@@ -67,15 +68,15 @@ try {
 
   // Display tasks
   console.log(`Found ${taskDirs.length} task(s):\n`);
-  
+
   for (const task of taskDirs) {
     const status = task.isCurrent ? '* ACTIVE' : '  ';
     const date = task.modified.toISOString().split('T')[0];
-    
+
     // Extract task name from directory name
     const match = task.name.match(/task_(.+)_(\d{4}-\d{2}-\d{2})/);
     const taskName = match ? match[1].replace(/_/g, ' ') : task.name;
-    
+
     // Try to read goal from task_plan.md
     const planFile = join(task.path, 'task_plan.md');
     let goal = 'No goal set';

@@ -1,0 +1,16 @@
+description = "开始一个新的规划任务"
+prompt = """
+First, check the current task status:
+```
+!{ cat .agent_working_dir/current_task.json 2>/dev/null || echo '{"current": null}' }
+```
+
+Then start a planning session for the task: {{args}}
+
+Use the **planning-with-files** skill to:
+1. Create task directory and initialize planning files
+2. Customize task_plan.md with goal and phases
+3. Document findings and log session start
+
+Core principle: Context Window = RAM (volatile), Filesystem = Disk (persistent).
+"""

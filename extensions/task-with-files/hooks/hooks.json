@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 $EXTENSION_PATH/scripts/session_start.py",
+            "command": "python3 ${extensionPath}/scripts/session_start.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 $EXTENSION_PATH/scripts/pre_tool_use.py",
+            "command": "python3 ${extensionPath}/scripts/pre_tool_use.py",
             "env": {
               "EXTENSION_PATH": "${extensionPath}"
             }
@@ -33,7 +33,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 $EXTENSION_PATH/scripts/after_read_file.py",
+            "command": "python3 ${extensionPath}/scripts/after_read_file.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -46,7 +46,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 $EXTENSION_PATH/scripts/after_write_file.py",
+            "command": "python3 ${extensionPath}/scripts/after_write_file.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -58,7 +58,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 $EXTENSION_PATH/scripts/post_tool_use.py",
+            "command": "python3 ${extensionPath}/scripts/post_tool_use.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -72,7 +72,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 $EXTENSION_PATH/scripts/session_end.py",
+            "command": "python3 ${extensionPath}/scripts/session_end.py",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"

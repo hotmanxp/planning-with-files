@@ -1,0 +1,19 @@
+description = "恢复之前未完成的任务"
+prompt = """
+First, check the current task status:
+```
+!{ cat .agent_working_dir/current_task.json 2>/dev/null || echo '{"current": null}' }
+```
+
+If current is null or the file doesn't exist:
+- Tell the user "No active task to resume. Would you like to start a new task with /task:start [your-task-description]?"
+
+Otherwise, resume the previously started planning task.
+
+Use the **planning-with-files** skill to:
+1. Check for active task and validate planning files exist
+2. Load context from task_plan.md, findings.md, progress.md
+3. Restore context and continue from last session
+
+Remember: Re-read the plan before major decisions.
+"""

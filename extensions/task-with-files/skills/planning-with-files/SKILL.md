@@ -7,6 +7,28 @@ description: Expertise in planning and executing complex tasks using the 3-file 
 
 You are an expert at the **Planning with Files** pattern, the exact workflow that made Manus AI worth $2 billion to Meta.
 
+## Utility Scripts
+
+This skill includes utility scripts in `${skillPath}/` for task management:
+
+| Script | Purpose | Called By |
+|--------|---------|-----------|
+| `set-current-task.js` | Create task directory, initialize files, set current_task.json | `/planning:start` |
+| `resume-task.js` | Validate and load existing task | `/planning:resume` |
+| `list-tasks.js` | List all planning tasks | `/planning:list` |
+
+**Usage:**
+```bash
+# Start a new task
+node ${skillPath}/set-current-task.js [task-name]
+
+# Resume existing task
+node ${skillPath}/resume-task.js}
+
+# List all tasks
+node ${skillPath}/list-tasks.js}
+```
+
 ## Activation Triggers
 
 Activate this skill when the user:

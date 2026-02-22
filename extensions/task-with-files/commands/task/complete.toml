@@ -1,0 +1,17 @@
+description = "验证并完成任务"
+prompt = """
+First, check the current task status:
+```
+!{ cat .agent_working_dir/current_task.json 2>/dev/null || echo '{"current": null}' }
+```
+
+Then verify and complete the planning session.
+
+Use the **planning-with-files** skill to:
+1. Verify all phases in task_plan.md are marked complete
+2. Verify documentation (findings.md, progress.md) is complete
+3. Reset current_task.json if all work is done
+4. Generate completion report with deliverables
+
+Only mark complete if ALL work is truly done.
+"""

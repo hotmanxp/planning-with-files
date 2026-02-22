@@ -7,7 +7,7 @@
 
 /**
  * Resume Task Script
- * 
+ *
  * Called by /planning:resume command
  * Validates and loads a previously started task
  */
@@ -85,7 +85,7 @@ try {
   if (existsSync(planFile)) {
     const planContent = readFileSync(planFile, 'utf-8');
     const lines = planContent.split('\n');
-    
+
     // Extract goal
     for (let i = 0; i < lines.length; i++) {
       if (lines[i] === '## Goal' && i + 1 < lines.length) {
@@ -94,7 +94,7 @@ try {
         break;
       }
     }
-    
+
     // Extract current phase
     for (let i = 0; i < lines.length; i++) {
       if (lines[i] === '## Current Phase' && i + 1 < lines.length) {
