@@ -40,16 +40,3 @@ If the task doesn't meet the complex conditions above, use the built-in `WriteTo
 | Complex requirements, multiple modules | planning-with-files |
 | Simple fixes, single file | WriteTodos |
 ---
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `/task:start [task]` | Start a new planning task |
-| `/task:resume` | Resume an incomplete task |
-| `/task:complete` | Mark task as complete and reset |
-| `/task:clear` | Force reset current task (use when task is abandoned) |
-| `/task:status` | Show current task progress |
-| `/task:list` | List all tasks |
-
-**Summary**: Complex tasks use planning-with-files, simple tasks use WriteTodos. Once the former is activated, you must abandon TodoWrite.

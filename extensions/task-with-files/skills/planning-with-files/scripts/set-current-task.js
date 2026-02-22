@@ -19,8 +19,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Extension path is 2 levels up from skills/planning-with-files/
-const extensionPath = resolve(__dirname, '..', '..');
+// Skill path is 1 level up from scripts/
+const skillPath = resolve(__dirname, '..');
 
 const workspacePath = process.env.WORKSPACE_PATH || process.cwd();
 const taskName = process.argv[2] || 'default';
@@ -60,7 +60,7 @@ try {
   }
 
   // Copy templates
-  const templatesDir = join(extensionPath, 'templates');
+  const templatesDir = join(skillPath, 'templates');
   const taskPlanFile = join(taskDir, 'task_plan.md');
   const findingsFile = join(taskDir, 'findings.md');
   const progressFile = join(taskDir, 'progress.md');
