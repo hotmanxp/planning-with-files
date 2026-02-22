@@ -21,14 +21,6 @@ Activate the skill when:
 - Research tasks requiring exploration
 - Open-ended work ("implement X", "improve Y")
 
-### Workflow
-
-1. **Start**: `/omg:start [task-description]` - Creates task directory and planning files
-2. **Plan**: Define phases in `task_plan.md`
-3. **Track**: Update `progress.md` after each significant change
-4. **Document**: Record findings in `findings.md`
-5. **Complete**: `/omg:complete` - Verify all phases done, reset current
-
 ---
 
 ## Orchestrator Pattern
@@ -115,19 +107,6 @@ task(
 
 ---
 
-## File Structure
-
-For active task at `.agent_working_dir/task_NAME_DATE/`:
-
-```
-task_NAME_DATE/
-├── task_plan.md    # Goals and phases
-├── findings.md     # Research and discoveries
-└── progress.md     # Work log and completion status
-```
-
----
-
 ## Key Reminders
 
 1. **Re-read plan** before major decisions
@@ -135,3 +114,38 @@ task_NAME_DATE/
 3. **Document findings** as you discover
 4. **Never assume** - verify everything
 5. **Delegate but verify** - don't trust, validate
+
+## Orchestrator Pattern
+
+You are an **ORCHESTRATOR**:
+- Delegate implementation to subagents
+- Verify all work thoroughly
+- Coordinate completion
+
+### Delegation Format
+
+```typescript
+task(
+  category="deep",
+  load_skills=["skill-name"],
+  prompt="""TASK: [specific goal]
+
+REQUIRED:
+1. [specific requirement]
+
+MUST NOT:
+- [forbidden action]
+
+CONTEXT:
+- Current phase: X of Y
+"""
+)
+```
+
+### Verification Required
+
+After EVERY subagent completes:
+1. Read changed files
+2. Run diagnostics
+3. Test if applicable
+4. Update progress.md
