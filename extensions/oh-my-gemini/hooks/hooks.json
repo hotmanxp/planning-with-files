@@ -1,0 +1,87 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${extensionPath}/scripts/session_start.py",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}",
+              "EXTENSION_PATH": "${extensionPath}"
+            }
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${extensionPath}/scripts/pre_tool.py",
+            "env": {
+              "EXTENSION_PATH": "${extensionPath}",
+              "WORKSPACE_PATH": "${workspacePath}"
+            }
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "read_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${extensionPath}/scripts/after_read.py",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}",
+              "EXTENSION_PATH": "${extensionPath}"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": "write_file|edit_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${extensionPath}/scripts/after_write.py",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}",
+              "EXTENSION_PATH": "${extensionPath}"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": "task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${extensionPath}/scripts/after_task.py",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}",
+              "EXTENSION_PATH": "${extensionPath}"
+            }
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${extensionPath}/scripts/session_end.py",
+            "env": {
+              "WORKSPACE_PATH": "${workspacePath}",
+              "EXTENSION_PATH": "${extensionPath}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

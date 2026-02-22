@@ -1,0 +1,15 @@
+description = "列出最近5个任务"
+
+prompt = """
+First, check the current task status:
+```
+!{ cat .agent_working_dir/current_task.json 2>/dev/null || echo '{"current": null}' }
+```
+
+Then list the 5 most recent planning tasks.
+
+Use the **planning-with-files** skill to:
+1. Run list-tasks.js script
+2. Display only the 5 most recent tasks
+3. Show task date, goal, and path for each task
+"""

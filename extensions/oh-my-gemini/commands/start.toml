@@ -1,0 +1,20 @@
+description = "开始一个新任务"
+
+prompt = """
+First, check the current task status:
+```
+!{ cat .agent_working_dir/current_task.json 2>/dev/null || echo '{"current": null}' }
+```
+
+If there is an active task, ask the user to complete or clear it first, then start the new task.
+
+Otherwise, start a new task with the following description: {{args}}
+
+Use the **planning-with-files** skill to:
+1. Create task directory and initialize planning files
+2. Customize task_plan.md with goal and phases
+3. Document initial context in findings.md
+4. Log session start in progress.md
+
+Core principle: Context Window = RAM (volatile), Filesystem = Disk (persistent).
+"""

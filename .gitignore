@@ -21,6 +21,8 @@ notes.md
 # ClawdHub publish folder (managed separately)
 clawdhub-publish/
 
+__pycache__
+
 # Claude session files
 .claude/
 

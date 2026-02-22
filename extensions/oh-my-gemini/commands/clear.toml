@@ -1,0 +1,21 @@
+description = "重置当前任务（放弃任务时使用）"
+
+prompt = """
+First, check the current task status:
+```
+!{ cat .agent_working_dir/current_task.json 2>/dev/null || echo '{"current": null}' }
+```
+
+If current is null:
+- Tell the user "No active task to clear."
+
+Otherwise, reset the current task tracking.
+
+This command will:
+1. Show the user what task is being abandoned
+2. Read current_task.json from .agent_working_dir/
+3. Set the "current" field to null
+4. Confirm the reset to the user
+
+Note: This does NOT delete the task files (task_plan.md, findings.md, progress.md). They remain for future reference.
+"""

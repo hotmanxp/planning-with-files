@@ -1,0 +1,6 @@
+{
+  "name": "oh-my-gemini",
+  "version": "1.0.0",
+  "description": "Sisyphus-style task management for Gemini CLI - orchestrate complex tasks with persistent planning files.",
+  "contextFileName": "GEMINI.md"
+}
