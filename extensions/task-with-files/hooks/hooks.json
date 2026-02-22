@@ -42,7 +42,7 @@
         ]
       },
       {
-        "matcher": "write_file",
+        "matcher": "write_file|edit_file",
         "hooks": [
           {
             "type": "command",
