@@ -7,10 +7,9 @@ First, check the current task status:
 
 Then start a planning session for the task: {{args}}
 
-Use the **planning-with-files** skill to:
+Activate the `planning-with-files` skill to:
 1. Create task directory and initialize planning files
 2. Customize task_plan.md with goal and phases
-3. Document findings and log session start
 
 Core principle: Context Window = RAM (volatile), Filesystem = Disk (persistent).
 """

@@ -20,13 +20,13 @@ This skill includes utility scripts in `scripts/` for task management:
 **Usage:**
 ```bash
 # Start a new task
-node scripts/set-current-task.js [task-name]
+node $skill_dir/scripts/set-current-task.js [task-name]
 
 # Resume existing task
-node scripts/resume-task.js
+node $skill_dir/scripts/resume-task.js
 
 # List all tasks
-node scripts/list-tasks.js
+node $skill_dir/scripts/list-tasks.js
 ```
 
 ## Activation Triggers

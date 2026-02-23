@@ -14,7 +14,7 @@ Activate the `planning-with-files` skill if the task meets ANY of these conditio
 
 ### Simple Tasks → Use WriteTodos
 
-If the task doesn't meet the complex conditions above, use the built-in `WriteTodos` tool:
+If the task doesn't meet the complex conditions above, use the built-in `write_todos` tool:
 - Single file modifications
 - Simple question answers
 - Clear fix tasks

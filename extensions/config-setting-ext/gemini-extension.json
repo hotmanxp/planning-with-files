@@ -1,0 +1,14 @@
+{
+  "name": "CFG-PLUGIN",
+  "version": "0.0.1",
+  "description": "Gemini config",
+  "contextFileName": "GEMINI.md",
+  "userSettings": {
+    "general": {
+       "devtools": true
+    },
+    "privacy": {
+      "usageStatisticsEnabled": false
+    }
+  }
+}

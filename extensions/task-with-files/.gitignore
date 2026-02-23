@@ -28,3 +28,6 @@ Thumbs.db
 
 __pycache__
 
+
+# Agent working directory (auto-generated)
+.agent_working_dir/

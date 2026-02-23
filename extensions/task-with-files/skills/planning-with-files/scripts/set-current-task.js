@@ -12,7 +12,7 @@
  * Creates task directory and initializes current_task.json
  */
 
-import { writeFileSync, mkdirSync, existsSync, copyFileSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, copyFileSync, readFileSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -29,6 +29,69 @@ const workingDirBase = join(process.cwd(), '.agent_working_dir');
 const clean = (str) => str ? str.trim().replace(/^["']|["']$/g, '') : '';
 const cleanWorkingDir = clean(workingDirBase);
 
+/**
+ * Find project root by looking for .gitignore or package.json
+ * Starts from cwd and walks up
+ */
+function findProjectRoot(startDir) {
+  let current = startDir;
+  while (current !== dirname(current)) {
+    const gitignorePath = join(current, '.gitignore');
+    if (existsSync(gitignorePath)) {
+      return { root: current, gitignore: gitignorePath };
+    }
+    const packageJsonPath = join(current, 'package.json');
+    if (existsSync(packageJsonPath)) {
+      // Continue looking for .gitignore but mark this as potential root
+      const potentialRoot = { root: current, packageJson: packageJsonPath };
+      const parent = findProjectRoot(dirname(current));
+      return parent || potentialRoot;
+    }
+    current = dirname(current);
+  }
+  return { root: startDir, gitignore: null };
+}
+
+/**
+ * Ensure .agent_working_dir is in .gitignore
+ */
+function ensureGitignoreIgnore(workingDirName, projectRoot) {
+  const gitignorePath = join(projectRoot, '.gitignore');
+  const ignoreEntry = `${workingDirName}/`;
+  
+  let gitignoreContent = '';
+  let needsUpdate = false;
+  
+  if (existsSync(gitignorePath)) {
+    gitignoreContent = readFileSync(gitignorePath, 'utf-8');
+    const lines = gitignoreContent.split(/\r?\n/);
+    const hasIgnore = lines.some(line => {
+      const trimmed = line.trim();
+      return trimmed === workingDirName || 
+             trimmed === `${workingDirName}/` ||
+             trimmed === `/${workingDirName}` ||
+             trimmed === `/${workingDirName}/`;
+    });
+    
+    if (!hasIgnore) {
+      needsUpdate = true;
+      // Add with a newline if content doesn't end with one
+      if (!gitignoreContent.endsWith('\n')) {
+        gitignoreContent += '\n';
+      }
+      gitignoreContent += `\n# Agent working directory (auto-generated)\n${ignoreEntry}\n`;
+    }
+  } else {
+    needsUpdate = true;
+    gitignoreContent = `# Agent working directory (auto-generated)\n${ignoreEntry}\n`;
+  }
+  
+  if (needsUpdate) {
+    writeFileSync(gitignorePath, gitignoreContent, 'utf-8');
+    console.log(`[task-with-files] Added '${ignoreEntry}' to .gitignore`);
+  }
+}
+
 // Generate task directory: ${projectDir}/.agent_working_dir/task_{$taskName}_${date}/
 function getTaskDir(taskName) {
   const date = new Date();
@@ -42,6 +105,10 @@ function getTaskDir(taskName) {
 }
 
 try {
+  // Find project root and ensure .agent_working_dir is in .gitignore
+  const { root: projectRoot } = findProjectRoot(process.cwd());
+  ensureGitignoreIgnore('.agent_working_dir', projectRoot);
+
   // Ensure working directory base exists
   if (!existsSync(cleanWorkingDir)) {
     mkdirSync(cleanWorkingDir, { recursive: true });
