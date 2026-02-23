@@ -1,0 +1,47 @@
+{
+  "name": "opencode-qwen-login-plugin",
+  "version": "1.0.0",
+  "description": "通义千问认证插件 - 从 qwen-code OAuth 自动配置 opencode",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "qwen-login": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/cli.js",
+    "test": "node --test dist/*.test.js",
+    "test:watch": "node --test --watch dist/*.test.js"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "qwen",
+    "auth",
+    "通义千问",
+    "阿里云"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/qwen-login-plugin"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./cli": "./dist/cli.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.8.2"
+  }
+}
