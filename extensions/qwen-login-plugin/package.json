@@ -1,5 +1,5 @@
 {
-  "name": "opencode-qwen-login-plugin",
+  "name": "@hotmanxp/opencode-qwen-login-plugin",
   "version": "1.0.0",
   "description": "通义千问认证插件 - 从 qwen-code OAuth 自动配置 opencode",
   "type": "module",
@@ -29,7 +29,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/qwen-login-plugin"
+    "url": "https://github.com/hotmanxp/planning-with-files.git"
   },
   "files": [
     "dist",
