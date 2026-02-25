@@ -58,10 +58,11 @@ Everyone who made this project better — bug reports, PRs, and integrations.
 <details>
 <summary><strong>📦 Releases & Session Recovery</strong></summary>
 
-### Current Version: v2.16.1
+### Current Version: v2.17.0
 
 | Version | Highlights |
 |---------|------------|
+| **v2.17.0** | Mastra Code support + all IDE SKILL.md spec fixes |
 | **v2.16.1** | Copilot garbled characters fix — PS1 UTF-8 encoding + bash ensure_ascii (thanks @Hexiaopi!) |
 | **v2.16.0** | GitHub Copilot hooks support (thanks @lincolnwan!) |
 | **v2.15.1** | Session catchup false-positive fix (thanks @gydx6!) |
@@ -137,7 +138,7 @@ A Claude Code plugin that transforms your workflow to use persistent markdown fi
 [![Pi Agent](https://img.shields.io/badge/Pi%20Agent-Skills-FF4081)](https://pi.dev)
 [![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-Hooks-000000)](https://docs.github.com/en/copilot/reference/hooks-configuration)
 [![Mastra Code](https://img.shields.io/badge/Mastra%20Code-Skills-00BCD4)](https://code.mastra.ai)
-[![Version](https://img.shields.io/badge/version-2.16.1-brightgreen)](https://github.com/OthmanAdi/planning-with-files/releases)
+[![Version](https://img.shields.io/badge/version-2.17.0-brightgreen)](https://github.com/OthmanAdi/planning-with-files/releases)
 [![SkillCheck Validated](https://img.shields.io/badge/SkillCheck-Validated-4c1)](https://getskillcheck.com)
 
 ## Quick Install

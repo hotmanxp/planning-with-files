@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.17.0] - 2026-02-25
+
+### Added
+
+- **Mastra Code support** — new `.mastracode/skills/planning-with-files/` integration with native hooks (PreToolUse, PostToolUse, Stop), full scripts, templates, and installation guide (platform #16)
+
+### Fixed
+
+- **Skill metadata spec compliance** — applied PR #83 fixes across all 12 IDE-specific SKILL.md files:
+  - `allowed-tools` YAML list → comma-separated string (Codex, Cursor, Kilocode, CodeBuddy, OpenCode)
+  - `version` moved from top-level to `metadata.version` across all applicable files
+  - Description updated with trigger terms ("plan out", "break down", "organize", "track progress") in all IDEs
+  - Version bumped to 2.16.1 everywhere, including canonical `skills/planning-with-files/SKILL.md`
+  - OpenClaw inline JSON metadata expanded to proper block YAML
+
+### Thanks
+
+- @popey for the PR #83 spec fixes that identified the issues
+
+---
+
 ## [2.16.1] - 2026-02-25
 
 ### Fixed
