@@ -1,0 +1,40 @@
+description = "Activate a skill. If no skill name provided, list available skills and ask user to choose."
+prompt = """
+Activate a skill for the user.
+
+## Process
+
+1. **Check if skill name was provided in args: {{args}}**
+   - If yes, activate that skill directly using `activate_skill` tool
+   - If no, proceed to step 2
+
+2. **List available skills**
+   - You already have access to all discovered skills and their descriptions
+   - Present them to the user in a clear format
+
+3. **Ask user to choose**
+   Use `ask_user` tool to let user select:
+   
+   ```json
+   {
+     "questions": [
+       {
+         "header": "Skill",
+         "question": "Which skill would you like to activate?",
+         "type": "choice",
+         "options": [
+           {"label": "skill-name-1", "description": "Description 1"},
+           {"label": "skill-name-2", "description": "Description 2"}
+           // ... list all available skills
+         ]
+       }
+     ]
+   }
+   ```
+
+4. **Activate selected skill**
+   Call `activate_skill` with the chosen skill name
+
+5. **Confirm**
+   Tell the user the skill is now active and ready to use
+"""

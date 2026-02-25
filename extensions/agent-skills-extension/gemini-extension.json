@@ -1,0 +1,19 @@
+{
+  "name": "agent-skills-extension",
+  "version": "1.0.0",
+  "description": "Complete collection of 9 professional skills for Gemini CLI including skill creation, documentation, custom commands, agents, extensions, and plugins creators",
+  "skills": {
+    "skill-creator": "./skills/skill-creator",
+    "gemini-docs": "./skills/gemini-docs",
+    "gemini-custom-commands-creator": "./skills/gemini-custom-commands-creator",
+    "opencode-docs": "./skills/opencode-docs",
+    "opencode-plugin-creator": "./skills/opencode-plugin-creator",
+    "gemini-extension-creator": "./skills/gemini-extension-creator",
+    "opencode-custom-commands-creator": "./skills/opencode-custom-commands-creator",
+    "gemini-agent-creator": "./skills/gemini-agent-creator",
+    "opencode-agent-creator": "./skills/opencode-agent-creator"
+  },
+  "commands": {
+    "activate-skill": "./commands/activate-skill.toml"
+  }
+}
