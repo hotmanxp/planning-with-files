@@ -31,10 +31,12 @@ If this skill helps you work smarter, that's all I wanted.
 <details>
 <summary><strong>📦 Releases & Session Recovery</strong></summary>
 
-### Current Version: v2.15.0
+### Current Version: v2.16.0
 
 | Version | Highlights |
 |---------|------------|
+| **v2.16.0** | GitHub Copilot hooks support (thanks @lincolnwan!) |
+| **v2.15.1** | Session catchup false-positive fix (thanks @gydx6!) |
 | **v2.15.0** | `/plan:status` command, OpenCode compatibility fix |
 | **v2.14.0** | Pi Agent support, OpenClaw docs update, Codex path fix |
 | **v2.11.0** | `/plan` command for easier autocomplete |
@@ -43,6 +45,8 @@ If this skill helps you work smarter, that's all I wanted.
 | **v2.2.0** | Session recovery, Windows PowerShell, OS-aware hooks |
 
 [View all releases](https://github.com/OthmanAdi/planning-with-files/releases) · [CHANGELOG](CHANGELOG.md)
+
+> 🧪 **Experimental:** Isolated parallel planning (`.planning/{uuid}/` folders) is being tested on [`experimental/isolated-planning`](https://github.com/OthmanAdi/planning-with-files/tree/experimental/isolated-planning). Try it and share feedback!
 
 ---
 
@@ -64,7 +68,7 @@ When your context fills up and you run `/clear`, this skill **automatically reco
 </details>
 
 <details>
-<summary><strong>🛠️ Supported IDEs (14 Platforms)</strong></summary>
+<summary><strong>🛠️ Supported IDEs (15 Platforms)</strong></summary>
 
 | IDE | Status | Installation Guide | Format |
 |-----|--------|-------------------|--------|
@@ -82,6 +86,7 @@ When your context fills up and you run `/clear`, this skill **automatically reco
 | CodeBuddy | ✅ Full Support | [CodeBuddy Setup](docs/codebuddy.md) | Workspace/Personal Skill |
 | AdaL CLI (Sylph AI) | ✅ Full Support | [AdaL Setup](docs/adal.md) | Personal/Project Skills |
 | Pi Agent | ✅ Full Support | [Pi Agent Setup](docs/pi-agent.md) | Agent Skills |
+| GitHub Copilot | ✅ Full Support | [Copilot Setup](docs/copilot.md) | Hooks |
 
 > **Note:** If your IDE uses the legacy Rules system instead of Skills, see the [`legacy-rules-support`](https://github.com/OthmanAdi/planning-with-files/tree/legacy-rules-support) branch.
 
@@ -101,7 +106,8 @@ A Claude Code plugin that transforms your workflow to use persistent markdown fi
 [![Kiro](https://img.shields.io/badge/Kiro-Steering-00D4AA)](https://kiro.dev/docs/cli/steering/)
 [![AdaL CLI](https://img.shields.io/badge/AdaL%20CLI-Skills-9B59B6)](https://docs.sylph.ai/features/plugins-and-skills)
 [![Pi Agent](https://img.shields.io/badge/Pi%20Agent-Skills-FF4081)](https://pi.dev)
-[![Version](https://img.shields.io/badge/version-2.15.0-brightgreen)](https://github.com/OthmanAdi/planning-with-files/releases)
+[![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-Hooks-000000)](https://docs.github.com/en/copilot/reference/hooks-configuration)
+[![Version](https://img.shields.io/badge/version-2.16.0-brightgreen)](https://github.com/OthmanAdi/planning-with-files/releases)
 [![SkillCheck Validated](https://img.shields.io/badge/SkillCheck-Validated-4c1)](https://getskillcheck.com)
 
 ## Quick Install
@@ -275,6 +281,10 @@ planning-with-files/
 ├── .pi/                     # Pi Agent skills
 │   └── skills/
 │       └── planning-with-files/
+├── .github/                 # GitHub Copilot hooks
+│   └── hooks/
+│       ├── planning-with-files.json  # Hook configuration
+│       └── scripts/         # Hook scripts (bash + PowerShell)
 ├── CHANGELOG.md
 ├── LICENSE
 └── README.md
@@ -302,6 +312,7 @@ planning-with-files/
 | [CodeBuddy Setup](docs/codebuddy.md) | CodeBuddy IDE integration guide |
 | [AdaL CLI Setup](docs/adal.md) | AdaL CLI / Sylph AI integration guide |
 | [Pi Agent Setup](docs/pi-agent.md) | Pi Agent integration guide |
+| [Copilot Setup](docs/copilot.md) | GitHub Copilot hooks integration guide |
 
 ## Contributors
 

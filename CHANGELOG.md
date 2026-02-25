@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.16.0] - 2026-02-22
+
+### Added
+
+- **GitHub Copilot Support** (PR #80 by @lincolnwan)
+  - Native GitHub Copilot hooks integration (early 2026 hooks feature)
+  - Created `.github/hooks/planning-with-files.json` configuration
+  - Added full hook scripts in `.github/hooks/scripts/`
+  - Cross-platform support (bash + PowerShell)
+  - Added `docs/copilot.md` installation guide
+  - Added GitHub Copilot badge to README
+  - This brings total supported platforms to 15
+
+### Thanks
+
+- @lincolnwan for GitHub Copilot hooks support (PR #80)
+
+---
+
 ## [2.14.0] - 2026-02-04
 
 ### Added
