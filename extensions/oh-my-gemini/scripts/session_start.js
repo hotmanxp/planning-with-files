@@ -92,7 +92,7 @@ function main() {
 
       outputJson({
         decision: 'allow',
-        systemMessage: `[task-with-files] Previous task '${taskName}' completed! Current reset.`,
+        systemMessage: `[oh-my-gemini] Previous task '${taskName}' completed! Current reset.`,
       });
     } else {
       // Task is incomplete, notify user
@@ -100,7 +100,10 @@ function main() {
 
       outputJson({
         decision: 'allow',
-        systemMessage: `[task-with-files] Found incomplete task: '${taskName}'\n\nTo continue, run: /task:resume\nOr start a new task with: /task:start [task-name]`,
+        systemMessage: `[oh-my-gemini] Found incomplete task: '${taskName}'
+
+To continue: /omg:resume
+Or start new: /omg:start [task]`,
       });
     }
   } catch (err) {

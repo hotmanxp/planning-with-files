@@ -14,9 +14,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const WORKSPACE_PATH = process.env.WORKSPACE_PATH || process.env.workspace_path || process.cwd();
-const workingDirBase = path.join(WORKSPACE_PATH, '.agent_working_dir');
-const currentTaskFile = path.join(workingDirBase, 'current_task.json');
+const WORKSPACE_PATH = process.env.WORKSPACE_PATH || '';
+const currentTaskFile = path.join(WORKSPACE_PATH, '.agent_working_dir', 'current_task.json');
 
 /**
  * Get current task directory
@@ -48,7 +47,7 @@ function outputJson(data) {
 }
 
 function main() {
-  // Read stdin (required for hook protocol)
+  // Read stdin
   let input_data = {};
   try {
     const stdin = fs.readFileSync(0, 'utf-8');
@@ -65,53 +64,46 @@ function main() {
     return;
   }
 
-  const toolInput = input_data.tool_input || {};
-  const filePath = toolInput.file_path || '';
+  const tool_input = input_data.tool_input || {};
+  const file_path = tool_input.file_path || tool_input.file || '';
 
-  let additionalContext;
+  let additional_context;
 
-  if (filePath) {
+  if (file_path) {
     try {
-      const relPath = path.relative(WORKSPACE_PATH, filePath);
-      additionalContext = `
+      const relPath = path.relative(WORKSPACE_PATH, file_path);
+      additional_context = `
 
 ---
 
-**[task-with-files] File Modified: ${relPath}**
+**[oh-my-gemini] File Modified: ${relPath}**
 
-You just modified this file. Consider updating **progress.md** with what was accomplished.
-
-Example format for progress.md:
-\`\`\`
-## ${relPath}
-
-- [x] Description of change made
-\`\`\`
+Update **progress.md** with what was accomplished.
 `;
     } catch (err) {
-      additionalContext = `
+      additional_context = `
 
 ---
 
-**[task-with-files] You just modified a file.**
+**[oh-my-gemini] File Modified**
 
-Consider updating **progress.md** with what was accomplished.
+Update **progress.md** with what was accomplished.
 `;
     }
   } else {
-    additionalContext = `
+    additional_context = `
 
 ---
 
-**[task-with-files] You just modified a file.**
+**[oh-my-gemini] File Modified**
 
-Consider updating **progress.md** with what was accomplished.
+Update **progress.md** with what was accomplished.
 `;
   }
 
   outputJson({
     decision: 'allow',
-    hookSpecificOutput: { additionalContext },
+    hookSpecificOutput: { additionalContext: additional_context },
   });
 }
 

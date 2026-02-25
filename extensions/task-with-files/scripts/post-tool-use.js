@@ -6,57 +6,33 @@
  */
 
 /**
- * AfterToolUse Hook
- *
- * Tracks progress after tool execution.
- * Implements the "2-Action Rule" reminder for updating findings.md
- *
- * Note: Always exits with code 0 to avoid blocking workflow
+ * PostToolUse Hook
+ * 
+ * Currently a pass-through hook.
  */
 
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+const fs = require('fs');
 
-const workspacePath = process.env.WORKSPACE_PATH || process.cwd();
-const workingDirBase = join(process.cwd(), '.agent_working_dir');
-
-const clean = (str) => str ? str.trim().replace(/^["']|["']$/g, '') : '';
-const cleanWorkspacePath = clean(workspacePath);
-
-// Get current task directory
-const currentTaskFile = join(workingDirBase, 'current_task.json');
-
-// 如果没有进行中的任务，直接退出（不输出任何内容）
-if (!existsSync(currentTaskFile)) {
-  process.exit(0);
+/**
+ * Output JSON to stdout
+ * @param {object} data - Data to output
+ */
+function outputJson(data) {
+  console.log(JSON.stringify(data));
 }
 
-try {
-  const currentTaskData = JSON.parse(readFileSync(currentTaskFile, 'utf-8'));
-
-  // 如果没有当前任务，直接退出（不输出任何内容）
-  if (!currentTaskData.current) {
-    process.exit(0);
+function main() {
+  // Read stdin (required for hook protocol)
+  let input_data = {};
+  try {
+    const stdin = fs.readFileSync(0, 'utf-8');
+    input_data = JSON.parse(stdin);
+  } catch (err) {
+    // Ignore parsing errors
   }
 
-  const taskDir = currentTaskData.current;
-  const progressFile = join(taskDir, 'progress.md');
-  const findingsFile = join(taskDir, 'findings.md');
-
-  // Check if findings.md needs updating (2-Action Rule reminder)
-  if (existsSync(findingsFile)) {
-    console.log('[task-with-files] Remember the 2-Action Rule');
-    console.log('[task-with-files] After 2 view/read operations, update findings.md');
-  }
-
-  // Log tool usage to progress if file exists
-  if (existsSync(progressFile)) {
-    console.log('[task-with-files] Progress tracked');
-  }
-
-} catch (err) {
-  // Non-fatal error, continue silently
+  // Allow all tool results silently
+  outputJson({ decision: 'allow' });
 }
 
-console.log(`[task-with-files] Workspace: ${cleanWorkspacePath}`);
-process.exit(0);
+main();

@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${extensionPath}/scripts/session_start.py",
+            "command": "node ${extensionPath}/scripts/session_start.js",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${extensionPath}/scripts/pre_tool.py",
+            "command": "node ${extensionPath}/scripts/pre_tool.js",
             "env": {
               "EXTENSION_PATH": "${extensionPath}",
               "WORKSPACE_PATH": "${workspacePath}"
@@ -34,7 +34,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${extensionPath}/scripts/after_read.py",
+            "command": "node ${extensionPath}/scripts/after_read.js",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -47,7 +47,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${extensionPath}/scripts/after_write.py",
+            "command": "node ${extensionPath}/scripts/after_write.js",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -60,7 +60,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${extensionPath}/scripts/after_task.py",
+            "command": "node ${extensionPath}/scripts/after_task.js",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"
@@ -74,7 +74,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${extensionPath}/scripts/session_end.py",
+            "command": "node ${extensionPath}/scripts/session_end.js",
             "env": {
               "WORKSPACE_PATH": "${workspacePath}",
               "EXTENSION_PATH": "${extensionPath}"

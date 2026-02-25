@@ -2,7 +2,6 @@
   "name": "task-with-files",
   "version": "2.0.0",
   "description": "Transform your workflow to use persistent markdown files for planning, progress tracking, and knowledge storage — work like Manus AI, the AI agent company Meta acquired for $2 billion.",
-  "type": "module",
   "main": "commands/scripts/set-current-task.js",
   "scripts": {
     "test": "echo \"No tests specified\" && exit 0",

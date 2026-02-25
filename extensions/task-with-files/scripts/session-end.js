@@ -6,16 +6,21 @@
  */
 
 /**
- * SessionStart Hook - checks for ongoing tasks on session start.
+ * SessionEnd Hook
+ * 
+ * Checks task completion status on session end.
+ * - If task is complete, reset current task
+ * - If task is incomplete, notify user
+ * 
+ * Note: Always exits with code 0 to avoid blocking session end
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const WORKSPACE_PATH = process.env.WORKSPACE_PATH || '';
-const workingDirBase = WORKSPACE_PATH
-  ? path.join(WORKSPACE_PATH, '.agent_working_dir')
-  : path.join(process.cwd(), '.agent_working_dir');
+const WORKSPACE_PATH = process.env.WORKSPACE_PATH || process.env.workspace_path || process.cwd();
+const EXTENSION_PATH = process.env.EXTENSION_PATH || process.env.extension_path || '';
+const workingDirBase = path.join(WORKSPACE_PATH, '.agent_working_dir');
 const currentTaskFile = path.join(workingDirBase, 'current_task.json');
 
 /**
@@ -59,15 +64,16 @@ function outputJson(data) {
 }
 
 function main() {
-  // Read stdin
+  // Read stdin (required for hook protocol)
   let input_data = {};
   try {
     const stdin = fs.readFileSync(0, 'utf-8');
     input_data = JSON.parse(stdin);
   } catch (err) {
-    outputJson({ decision: 'allow' });
-    return;
+    // Ignore parsing errors
   }
+
+  const reason = input_data.reason || 'unknown';
 
   if (!fs.existsSync(currentTaskFile)) {
     outputJson({ decision: 'allow' });
@@ -87,25 +93,12 @@ function main() {
       // Task is complete, reset
       currentTaskData.current = null;
       fs.writeFileSync(currentTaskFile, JSON.stringify(currentTaskData, null, 2));
-
-      const taskName = path.basename(currentTask).replace('task_', '').replace(/_/g, ' ');
-
-      outputJson({
-        decision: 'allow',
-        systemMessage: `[task-with-files] Previous task '${taskName}' completed! Current reset.`,
-      });
-    } else {
-      // Task is incomplete, notify user
-      const taskName = path.basename(currentTask).replace('task_', '').replace(/_/g, ' ');
-
-      outputJson({
-        decision: 'allow',
-        systemMessage: `[task-with-files] Found incomplete task: '${taskName}'\n\nTo continue, run: /task:resume\nOr start a new task with: /task:start [task-name]`,
-      });
     }
   } catch (err) {
-    outputJson({ decision: 'allow' });
+    // Non-fatal error
   }
+
+  outputJson({ decision: 'allow' });
 }
 
 main();
