@@ -27,6 +27,7 @@ If the task doesn't meet the complex conditions above, use the built-in `write_t
 1. **Stop using TodoWrite tool** — All task management must go through `task_plan.md`, `findings.md`, `progress.md`
 2. **Write all discoveries to files** — Don't rely on context to store information
 3. **Follow the skill specification** — Execute according to planning-with-files workflow and principles
+4. **Temporary files management** — Temporary files generated during task execution (e.g., test files, scripts, scratch pads) can be written within the relevant task folder to keep workspace organized and facilitate cleanup
 
 ---
 
