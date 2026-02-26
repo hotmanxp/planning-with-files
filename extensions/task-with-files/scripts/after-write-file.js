@@ -87,7 +87,10 @@ Example format for progress.md:
 
 - [x] Description of change made
 \`\`\`
+
 **Current Task Folder:** \`${currentTask}\`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     } catch (err) {
       additionalContext = `
@@ -97,7 +100,10 @@ Example format for progress.md:
 **[task-with-files] You just modified a file.**
 
 Consider updating **progress.md** with what was accomplished.
+
 **Current Task Folder:** \`${currentTask}\`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     }
   } else {
@@ -108,7 +114,10 @@ Consider updating **progress.md** with what was accomplished.
 **[task-with-files] You just modified a file.**
 
 Consider updating **progress.md** with what was accomplished.
+
 **Current Task Folder:** \`${currentTask}\`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
   }
 

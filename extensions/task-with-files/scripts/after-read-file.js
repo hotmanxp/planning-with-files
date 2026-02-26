@@ -80,7 +80,10 @@ function main() {
 **[task-with-files] File Read: ${relPath}**
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
+
 **Current Task Folder:** \`${currentTask}\`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     } catch (err) {
       additionalContext = `
@@ -90,7 +93,10 @@ If this contains useful information for your current task, consider adding a sum
 **[task-with-files] You just read a file.**
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
+
 **Current Task Folder:** \`${currentTask}\`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     }
   } else {
@@ -101,7 +107,10 @@ If this contains useful information for your current task, consider adding a sum
 **[task-with-files] You just read a file.**
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
+
 **Current Task Folder:** \`${currentTask}\`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
   }
 
