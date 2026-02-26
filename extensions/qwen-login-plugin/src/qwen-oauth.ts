@@ -192,14 +192,39 @@ export async function saveToOpencodeConfig(config: QwenApiConfig): Promise<void>
     opencodeConfigPath = join(homedir(), "Library", "Application Support", "opencode", "opencode.json")
   }
   
+  await saveConfigToFile(opencodeConfigPath, config, "opencode")
+}
+
+/**
+ * 保存配置到 .gemini/settings.json
+ * 
+ * @param config API 配置
+ */
+export async function saveToGeminiSettings(config: QwenApiConfig): Promise<void> {
+  const geminiSettingsPath = join(homedir(), ".gemini", "settings.json")
+  await saveConfigToFile(geminiSettingsPath, config, "gemini")
+}
+
+/**
+ * 通用函数：保存配置到文件
+ * 
+ * @param configPath 配置文件路径
+ * @param config API 配置
+ * @param targetType 目标类型 ("opencode" | "gemini")
+ */
+async function saveConfigToFile(
+  configPath: string,
+  config: QwenApiConfig,
+  targetType: "opencode" | "gemini"
+): Promise<void> {
   try {
     // 确保目录存在
-    await mkdir(join(opencodeConfigPath, ".."), { recursive: true })
+    await mkdir(join(configPath, ".."), { recursive: true })
     
     // 读取现有配置
     let existingConfig: any = {}
     try {
-      const content = await readFile(opencodeConfigPath, "utf-8")
+      const content = await readFile(configPath, "utf-8")
       existingConfig = JSON.parse(content)
     } catch {
       // 配置文件不存在，创建新的
@@ -241,25 +266,26 @@ export async function saveToOpencodeConfig(config: QwenApiConfig): Promise<void>
         }
       },
       options: {
-        apiKey: config.apiKey,
+        // Gemini 只需要 token，不需要 "Bearer " 前缀
+        apiKey: targetType === "gemini" ? config.apiKey.replace("Bearer ", "") : config.apiKey,
         baseURL: config.baseURL,
         // 保存自定义请求头
         ...(config.headers ? { headers: config.headers } : {})
       }
     }
     
-    // 不设置默认 model，让用户自己在 opencode.json 中配置
+    // 不设置默认 model，让用户自己在配置文件中配置
     // 用户可以选择：qwen/coder-model, qwen/qwen-plus 等
     
     // 保存配置
-    await writeFile(opencodeConfigPath, JSON.stringify(existingConfig, null, 2), "utf-8")
+    await writeFile(configPath, JSON.stringify(existingConfig, null, 2), "utf-8")
   } catch (error) {
     throw error
   }
 }
 
 /**
- * 主函数：从 qwen-code OAuth 配置 opencode
+ * 主函数：从 qwen-code OAuth 配置 opencode 和 .gemini/settings.json
  * 
  * @returns 是否成功配置
  */
@@ -282,6 +308,9 @@ export async function configureOpencodeFromQwenOAuth(): Promise<boolean> {
     
     // 4. 保存到 opencode 配置
     await saveToOpencodeConfig(apiConfig)
+    
+    // 5. 保存到 .gemini/settings.json
+    await saveToGeminiSettings(apiConfig)
     
     return true
   } catch (error) {
