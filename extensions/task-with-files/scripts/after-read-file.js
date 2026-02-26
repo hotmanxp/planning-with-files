@@ -85,8 +85,6 @@ function main() {
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
 **Current Task Folder:** \`${currentTaskPath}\`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     } catch (err) {
       additionalContext = `
@@ -98,8 +96,6 @@ If this contains useful information for your current task, consider adding a sum
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
 **Current Task Folder:** \`${currentTaskPath}\`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     }
   } else {
@@ -112,8 +108,6 @@ If this contains useful information for your current task, consider adding a sum
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
 **Current Task Folder:** \`${currentTaskPath}\`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
   }
 

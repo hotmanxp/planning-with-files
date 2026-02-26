@@ -61,8 +61,6 @@ def main():
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
 **Current Task Folder:** `{current_task_path}`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 """
     else:
         additional_context = f"""
@@ -74,8 +72,6 @@ If this contains useful information for your current task, consider adding a sum
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
 **Current Task Folder:** `{current_task_path}`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 """
 
     print(

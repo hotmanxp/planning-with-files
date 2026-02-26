@@ -92,8 +92,6 @@ Example format for progress.md:
 \`\`\`
 
 **Current Task Folder:** \`${currentTaskPath}\`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     } catch (err) {
       additionalContext = `
@@ -105,8 +103,6 @@ Example format for progress.md:
 Consider updating **progress.md** with what was accomplished.
 
 **Current Task Folder:** \`${currentTaskPath}\`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
     }
   } else {
@@ -119,8 +115,6 @@ Consider updating **progress.md** with what was accomplished.
 Consider updating **progress.md** with what was accomplished.
 
 **Current Task Folder:** \`${currentTaskPath}\`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
   }
 

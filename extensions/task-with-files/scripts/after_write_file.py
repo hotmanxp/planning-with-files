@@ -68,8 +68,6 @@ Example format for progress.md:
 ```
 
 **Current Task Folder:** `{current_task_path}`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 """
     else:
         additional_context = f"""
@@ -81,8 +79,6 @@ Example format for progress.md:
 Consider updating **progress.md** with what was accomplished.
 
 **Current Task Folder:** `{current_task_path}`
-
-> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 """
 
     print(
