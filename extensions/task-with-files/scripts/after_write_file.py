@@ -63,15 +63,17 @@ Example format for progress.md:
 
 - [x] Description of change made
 ```
+**Current Task Folder:** `{current_task}`
 """
     else:
-        additional_context = """
+        additional_context = f"""
 
 ---
 
 **[task-with-files] You just modified a file.**
 
 Consider updating **progress.md** with what was accomplished.
+**Current Task Folder:** `{current_task}`
 """
 
     print(

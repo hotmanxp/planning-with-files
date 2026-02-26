@@ -56,15 +56,17 @@ def main():
 **[task-with-files] File Read: {rel_path}**
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
+**Current Task Folder:** `{current_task}`
 """
     else:
-        additional_context = """
+        additional_context = f"""
 
 ---
 
 **[task-with-files] You just read a file.**
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
+**Current Task Folder:** `{current_task}` 
 """
 
     print(
