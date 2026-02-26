@@ -39,6 +39,9 @@ def main():
         print(json.dumps({"decision": "allow"}), flush=True)
         return
 
+    # Ensure current_task is an absolute path
+    current_task_path = current_task if Path(current_task).is_absolute() else str(Path(workspace_path) / ".agent_working_dir" / current_task)
+
     tool_input = input_data.get("tool_input", {})
     file_path = tool_input.get("file_path", "")
 
@@ -63,7 +66,10 @@ Example format for progress.md:
 
 - [x] Description of change made
 ```
-**Current Task Folder:** `{current_task}`
+
+**Current Task Folder:** `{current_task_path}`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 """
     else:
         additional_context = f"""
@@ -73,7 +79,10 @@ Example format for progress.md:
 **[task-with-files] You just modified a file.**
 
 Consider updating **progress.md** with what was accomplished.
-**Current Task Folder:** `{current_task}`
+
+**Current Task Folder:** `{current_task_path}`
+
+> Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 """
 
     print(

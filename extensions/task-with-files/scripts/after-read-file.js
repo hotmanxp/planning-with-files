@@ -65,6 +65,9 @@ function main() {
     return;
   }
 
+  // Ensure currentTask is an absolute path
+  const currentTaskPath = path.isAbsolute(currentTask) ? currentTask : path.join(workingDirBase, currentTask);
+
   const toolInput = input_data.tool_input || {};
   const filePath = toolInput.file_path || '';
 
@@ -81,7 +84,7 @@ function main() {
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
-**Current Task Folder:** \`${currentTask}\`
+**Current Task Folder:** \`${currentTaskPath}\`
 
 > Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
@@ -94,7 +97,7 @@ If this contains useful information for your current task, consider adding a sum
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
-**Current Task Folder:** \`${currentTask}\`
+**Current Task Folder:** \`${currentTaskPath}\`
 
 > Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
@@ -108,7 +111,7 @@ If this contains useful information for your current task, consider adding a sum
 
 If this contains useful information for your current task, consider adding a summary to **findings.md**.
 
-**Current Task Folder:** \`${currentTask}\`
+**Current Task Folder:** \`${currentTaskPath}\`
 
 > Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;

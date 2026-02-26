@@ -65,6 +65,9 @@ function main() {
     return;
   }
 
+  // Ensure currentTask is an absolute path
+  const currentTaskPath = path.isAbsolute(currentTask) ? currentTask : path.join(workingDirBase, currentTask);
+
   const toolInput = input_data.tool_input || {};
   const filePath = toolInput.file_path || '';
 
@@ -88,7 +91,7 @@ Example format for progress.md:
 - [x] Description of change made
 \`\`\`
 
-**Current Task Folder:** \`${currentTask}\`
+**Current Task Folder:** \`${currentTaskPath}\`
 
 > Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
@@ -101,7 +104,7 @@ Example format for progress.md:
 
 Consider updating **progress.md** with what was accomplished.
 
-**Current Task Folder:** \`${currentTask}\`
+**Current Task Folder:** \`${currentTaskPath}\`
 
 > Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
@@ -115,7 +118,7 @@ Consider updating **progress.md** with what was accomplished.
 
 Consider updating **progress.md** with what was accomplished.
 
-**Current Task Folder:** \`${currentTask}\`
+**Current Task Folder:** \`${currentTaskPath}\`
 
 > Temporary files (test files, scripts, scratch pads) created during this task can be written within the task folder to keep the workspace organized.
 `;
