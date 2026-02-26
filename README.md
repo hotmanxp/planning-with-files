@@ -62,6 +62,7 @@ Everyone who made this project better — bug reports, PRs, and integrations.
 
 | Version | Highlights |
 |---------|------------|
+| **v2.18.1** | Copilot garbled characters complete fix |
 | **v2.18.0** | BoxLite sandbox runtime integration |
 | **v2.17.0** | Mastra Code support + all IDE SKILL.md spec fixes |
 | **v2.16.1** | Copilot garbled characters fix — PS1 UTF-8 encoding + bash ensure_ascii (thanks @Hexiaopi!) |

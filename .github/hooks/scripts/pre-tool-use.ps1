@@ -4,8 +4,8 @@
 # Always exits 0 — outputs JSON to stdout.
 
 # Read stdin (required — Copilot pipes JSON to stdin)
-$OutputEncoding = [System.Text.Encoding]::UTF8
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 $InputData = [Console]::In.ReadToEnd()
 
 $PlanFile = "task_plan.md"
@@ -15,7 +15,7 @@ if (-not (Test-Path $PlanFile)) {
     exit 0
 }
 
-$Context = (Get-Content $PlanFile -TotalCount 30 -ErrorAction SilentlyContinue) -join "`n"
+$Context = (Get-Content $PlanFile -TotalCount 30 -Encoding UTF8 -ErrorAction SilentlyContinue) -join "`n"
 
 if (-not $Context) {
     Write-Output '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow"}}'

@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.18.1] - 2026-02-26
+
+### Fixed
+
+- **Copilot hooks garbled characters — still broken after v2.16.1** (Issue #82, confirmed by @Hexiaopi)
+  - Root cause: `Get-Content` in all PS1 scripts had no `-Encoding` parameter — PowerShell 5.x reads files using the system ANSI code page (Windows-1252) by default, corrupting any non-ASCII character in `task_plan.md` or `SKILL.md` before it reaches the output pipe. The v2.16.1 fix was correct but fixed only the output side, not the read side.
+  - Secondary fix: `[System.Text.Encoding]::UTF8` returns UTF-8 with BOM — replaced with `[System.Text.UTF8Encoding]::new($false)` (UTF-8 without BOM) in all four PS1 scripts to prevent JSON parsers from receiving a stray `0xEF 0xBB 0xBF` preamble
+  - Fixed files: `pre-tool-use.ps1`, `session-start.ps1`, `agent-stop.ps1`, `post-tool-use.ps1`
+  - Bash scripts were already correct from v2.16.1
+
+### Thanks
+
+- @Hexiaopi for confirming the issue persisted after v2.16.1 (Issue #82)
+
+---
+
 ## [2.18.0] - 2026-02-26
 
 ### Added
