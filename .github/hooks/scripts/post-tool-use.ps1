@@ -3,6 +3,8 @@
 # Always exits 0 — outputs JSON to stdout.
 
 # Read stdin (required — Copilot pipes JSON to stdin)
+$OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $InputData = [Console]::In.ReadToEnd()
 
 $output = @{

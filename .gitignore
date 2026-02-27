@@ -29,3 +29,5 @@ __pycache__
 # Keep the skill folder clean
 *.log
 *.tmp
+WIKI_HOME_PAGE.md
+DISCUSSION_2_CONTENT.md

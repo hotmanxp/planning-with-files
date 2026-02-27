@@ -2,6 +2,89 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.18.2] - 2026-02-26
+
+### Fixed
+
+- **Mastra Code hooks were silently doing nothing**
+  - Root cause: Mastra Code reads hooks from `.mastracode/hooks.json`, not from SKILL.md frontmatter. The existing integration had hooks defined only in SKILL.md (Claude Code format), which Mastra Code ignores entirely. All three hooks (PreToolUse, PostToolUse, Stop) were non-functional.
+  - Added `.mastracode/hooks.json` with proper Mastra Code format including `matcher`, `timeout`, and `description` fields
+  - Fixed `MASTRACODE_SKILL_ROOT` env var in SKILL.md Stop hook (variable does not exist in Mastra Code, replaced with `$HOME` fallback to local path)
+  - Bumped `.mastracode/skills/planning-with-files/SKILL.md` metadata version from 2.16.1 to 2.18.1
+  - Corrected `docs/mastra.md` to accurately describe hooks.json (removed false claim that Mastra Code uses the same hook system as Claude Code)
+  - Fixed personal installation instructions to include hooks.json copy step
+
+---
+
+## [2.18.1] - 2026-02-26
+
+### Fixed
+
+- **Copilot hooks garbled characters — still broken after v2.16.1** (Issue #82, confirmed by @Hexiaopi)
+  - Root cause: `Get-Content` in all PS1 scripts had no `-Encoding` parameter — PowerShell 5.x reads files using the system ANSI code page (Windows-1252) by default, corrupting any non-ASCII character in `task_plan.md` or `SKILL.md` before it reaches the output pipe. The v2.16.1 fix was correct but fixed only the output side, not the read side.
+  - Secondary fix: `[System.Text.Encoding]::UTF8` returns UTF-8 with BOM — replaced with `[System.Text.UTF8Encoding]::new($false)` (UTF-8 without BOM) in all four PS1 scripts to prevent JSON parsers from receiving a stray `0xEF 0xBB 0xBF` preamble
+  - Fixed files: `pre-tool-use.ps1`, `session-start.ps1`, `agent-stop.ps1`, `post-tool-use.ps1`
+  - Bash scripts were already correct from v2.16.1
+
+### Thanks
+
+- @Hexiaopi for confirming the issue persisted after v2.16.1 (Issue #82)
+
+---
+
+## [2.18.0] - 2026-02-26
+
+### Added
+
+- **BoxLite sandbox runtime integration** (Issue #84 by @DorianZheng)
+  - New `docs/boxlite.md` guide for running planning-with-files inside BoxLite micro-VM sandboxes via ClaudeBox
+  - New `examples/boxlite/quickstart.py` — working Python example using ClaudeBox's Skill API to inject planning-with-files into a VM
+  - New `examples/boxlite/README.md` — example context and requirements
+  - README: new "Sandbox Runtimes" section (BoxLite is infrastructure, not an IDE — kept separate from the 16-platform IDE table)
+  - README: BoxLite badge and Documentation table entry added
+  - BoxLite loads via ClaudeBox (`pip install claudebox`) using its Python Skill object — no `.boxlite/` folder needed
+
+### Thanks
+
+- @DorianZheng for the BoxLite integration proposal (Issue #84)
+
+---
+
+## [2.17.0] - 2026-02-25
+
+### Added
+
+- **Mastra Code support** — new `.mastracode/skills/planning-with-files/` integration with native hooks (PreToolUse, PostToolUse, Stop), full scripts, templates, and installation guide (platform #16)
+
+### Fixed
+
+- **Skill metadata spec compliance** — applied PR #83 fixes across all 12 IDE-specific SKILL.md files:
+  - `allowed-tools` YAML list → comma-separated string (Codex, Cursor, Kilocode, CodeBuddy, OpenCode)
+  - `version` moved from top-level to `metadata.version` across all applicable files
+  - Description updated with trigger terms ("plan out", "break down", "organize", "track progress") in all IDEs
+  - Version bumped to 2.16.1 everywhere, including canonical `skills/planning-with-files/SKILL.md`
+  - OpenClaw inline JSON metadata expanded to proper block YAML
+
+### Thanks
+
+- @popey for the PR #83 spec fixes that identified the issues
+
+---
+
+## [2.16.1] - 2026-02-25
+
+### Fixed
+
+- **Copilot hooks garbled characters on Windows** (Issue #82, reported by @Hexiaopi)
+  - PowerShell scripts now set `$OutputEncoding` and `[Console]::OutputEncoding` to UTF-8 before any output — fixes garbled diamond characters (◆) caused by PowerShell 5.x defaulting to UTF-16LE stdout
+  - Bash scripts now use `json.dumps(..., ensure_ascii=False)` — preserves UTF-8 characters (emojis, accented letters, CJK) in `task_plan.md` instead of converting them to raw `XXXX` escape sequences
+
+### Thanks
+
+- @Hexiaopi for reporting the garbled characters issue (Issue #82)
+
+---
+
 ## [2.16.0] - 2026-02-22
 
 ### Added

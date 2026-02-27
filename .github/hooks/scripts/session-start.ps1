@@ -4,6 +4,8 @@
 # Always exits 0 — outputs JSON to stdout.
 
 # Read stdin (required — Copilot pipes JSON to stdin)
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 $InputData = [Console]::In.ReadToEnd()
 
 $PlanFile = "task_plan.md"
@@ -24,12 +26,12 @@ if (Test-Path $PlanFile) {
     if ($Catchup) {
         $Context = $Catchup -join "`n"
     } else {
-        $Context = (Get-Content $PlanFile -TotalCount 5 -ErrorAction SilentlyContinue) -join "`n"
+        $Context = (Get-Content $PlanFile -TotalCount 5 -Encoding UTF8 -ErrorAction SilentlyContinue) -join "`n"
     }
 } else {
     # No plan yet — inject SKILL.md so Copilot knows the planning workflow and templates
     if (Test-Path "$SkillDir/SKILL.md") {
-        $Context = Get-Content "$SkillDir/SKILL.md" -Raw -ErrorAction SilentlyContinue
+        $Context = Get-Content "$SkillDir/SKILL.md" -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
     }
 }
 

@@ -1,11 +1,85 @@
 ---
 name: planning-with-files
 description: Implements Manus-style file-based planning to organize and track progress on complex tasks. Creates task_plan.md, findings.md, and progress.md. Use when asked to plan out, break down, or organize a multi-step project, research task, or any work requiring >5 tool calls. Supports automatic session recovery after /clear.
+user-invocable: true
+allowed-tools: "Read, Write, Edit, Bash, Glob, Grep, WebFetch, WebSearch"
+hooks:
+  PreToolUse:
+    - matcher: "Write|Edit|Bash|Read|Glob|Grep"
+      hooks:
+        - type: command
+          command: "cat task_plan.md 2>/dev/null | head -30 || true"
+  PostToolUse:
+    - matcher: "Write|Edit"
+      hooks:
+        - type: command
+          command: "echo '[planning-with-files] File updated. If this completes a phase, update task_plan.md status.'"
+  Stop:
+    - hooks:
+        - type: command
+          command: |
+            SCRIPT_DIR="${HOME}/.mastracode/skills/planning-with-files/scripts"
+            [ -f "$SCRIPT_DIR/check-complete.sh" ] || SCRIPT_DIR=".mastracode/skills/planning-with-files/scripts"
+
+            IS_WINDOWS=0
+            if [ "${OS-}" = "Windows_NT" ]; then
+              IS_WINDOWS=1
+            else
+              UNAME_S="$(uname -s 2>/dev/null || echo '')"
+              case "$UNAME_S" in
+                CYGWIN*|MINGW*|MSYS*) IS_WINDOWS=1 ;;
+              esac
+            fi
+
+            if [ "$IS_WINDOWS" -eq 1 ]; then
+              if command -v pwsh >/dev/null 2>&1; then
+                pwsh -ExecutionPolicy Bypass -File "$SCRIPT_DIR/check-complete.ps1" 2>/dev/null ||
+                powershell -ExecutionPolicy Bypass -File "$SCRIPT_DIR/check-complete.ps1" 2>/dev/null ||
+                sh "$SCRIPT_DIR/check-complete.sh"
+              else
+                powershell -ExecutionPolicy Bypass -File "$SCRIPT_DIR/check-complete.ps1" 2>/dev/null ||
+                sh "$SCRIPT_DIR/check-complete.sh"
+              fi
+            else
+              sh "$SCRIPT_DIR/check-complete.sh"
+            fi
+metadata:
+  version: "2.18.1"
 ---
 
 # Planning with Files
 
 Work like Manus: Use persistent markdown files as your "working memory on disk."
+
+## FIRST: Check for Previous Session (v2.2.0)
+
+**Before starting work**, check for unsynced context from a previous session:
+
+```bash
+# Linux/macOS
+$(command -v python3 || command -v python) ~/.mastracode/skills/planning-with-files/scripts/session-catchup.py "$(pwd)"
+```
+
+```powershell
+# Windows PowerShell
+& (Get-Command python -ErrorAction SilentlyContinue).Source "$env:USERPROFILE\.mastracode\skills\planning-with-files\scripts\session-catchup.py" (Get-Location)
+```
+
+If catchup report shows unsynced context:
+1. Run `git diff --stat` to see actual code changes
+2. Read current planning files
+3. Update planning files based on catchup + git diff
+4. Then proceed with task
+
+## Important: Where Files Go
+
+- **Templates** are in this skill's `templates/` folder
+- **Your planning files** go in **your project directory**
+
+| Location | What Goes There |
+|----------|-----------------|
+| Skill directory | Templates, scripts, reference docs |
+| Your project directory | `task_plan.md`, `findings.md`, `progress.md` |
 
 ## Quick Start
 
@@ -144,18 +218,11 @@ Copy these templates to start:
 
 ## Scripts
 
-Helper scripts for automation (execute via bash):
+Helper scripts for automation:
 
 - `scripts/init-session.sh` — Initialize all planning files
 - `scripts/check-complete.sh` — Verify all phases complete
-- `scripts/session-catchup.py` — Recover context from previous session
-
-To use scripts:
-```bash
-bash scripts/init-session.sh
-bash scripts/check-complete.sh
-python scripts/session-catchup.py $(pwd)
-```
+- `scripts/session-catchup.py` — Recover context from previous session (v2.2.0)
 
 ## Advanced Topics
 

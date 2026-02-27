@@ -29,12 +29,44 @@ If this skill helps you work smarter, that's all I wanted.
 </details>
 
 <details>
+<summary><strong>🤝 Contributors</strong></summary>
+
+Everyone who made this project better — bug reports, PRs, and integrations.
+
+| Contributor | Contribution |
+|-------------|-------------|
+| [@popey](https://github.com/popey) | Skill metadata & discoverability fixes (PR #83) |
+| [@lincolnwan](https://github.com/lincolnwan) | GitHub Copilot hooks support (PR #80) |
+| [@gydx6](https://github.com/gydx6) | Session catchup false-positive fix (PR #79) |
+| [@ciberponk](https://github.com/ciberponk) | Isolated plan sessions with UUID pinning (PR #77) |
+| [@jonthebeef](https://github.com/jonthebeef) | `/plan:status` command (PR #75) |
+| [@codelyc](https://github.com/codelyc) | OpenCode scripts + CodeBuddy path fixes (PRs #76, #70, #66) |
+| [@ttttmr](https://github.com/ttttmr) | Pi Agent integration (PR #67) |
+| [@AZLabsAI](https://github.com/AZLabsAI) | OpenClaw docs update (PR #65) |
+| [@ZWkang](https://github.com/ZWkang) | CodeBuddy integration (PR #60) |
+| [@SaladDay](https://github.com/SaladDay) | POSIX stop hook fix (PR #57) |
+| [@murphyXu](https://github.com/murphyXu) | Continue IDE integration (PR #56) |
+| [@Guozihong](https://github.com/Guozihong) | Start command (PR #51) |
+| [@fahmyelraie](https://github.com/fahmyelraie) | Stop hook path resolution fix (PR #49) |
+| [@olgasafonova](https://github.com/olgasafonova) | SkillCheck validation badge (PR #46) |
+| [@lasmarois](https://github.com/lasmarois) | Session catchup cross-session improvements (PRs #37, #34) |
+| [@RioTheGreat-ai](https://github.com/RioTheGreat-ai) | AgentFund community extension (PR #72) |
+| [@Hexiaopi](https://github.com/Hexiaopi) | Copilot garbled characters bug report (Issue #82) |
+
+</details>
+
+<details>
 <summary><strong>📦 Releases & Session Recovery</strong></summary>
 
-### Current Version: v2.16.0
+### Current Version: v2.18.2
 
 | Version | Highlights |
 |---------|------------|
+| **v2.18.2** | Mastra Code hooks fix (hooks.json + docs accuracy) |
+| **v2.18.1** | Copilot garbled characters complete fix |
+| **v2.18.0** | BoxLite sandbox runtime integration |
+| **v2.17.0** | Mastra Code support + all IDE SKILL.md spec fixes |
+| **v2.16.1** | Copilot garbled characters fix — PS1 UTF-8 encoding + bash ensure_ascii (thanks @Hexiaopi!) |
 | **v2.16.0** | GitHub Copilot hooks support (thanks @lincolnwan!) |
 | **v2.15.1** | Session catchup false-positive fix (thanks @gydx6!) |
 | **v2.15.0** | `/plan:status` command, OpenCode compatibility fix |
@@ -68,7 +100,7 @@ When your context fills up and you run `/clear`, this skill **automatically reco
 </details>
 
 <details>
-<summary><strong>🛠️ Supported IDEs (15 Platforms)</strong></summary>
+<summary><strong>🛠️ Supported IDEs (16 Platforms)</strong></summary>
 
 | IDE | Status | Installation Guide | Format |
 |-----|--------|-------------------|--------|
@@ -87,8 +119,20 @@ When your context fills up and you run `/clear`, this skill **automatically reco
 | AdaL CLI (Sylph AI) | ✅ Full Support | [AdaL Setup](docs/adal.md) | Personal/Project Skills |
 | Pi Agent | ✅ Full Support | [Pi Agent Setup](docs/pi-agent.md) | Agent Skills |
 | GitHub Copilot | ✅ Full Support | [Copilot Setup](docs/copilot.md) | Hooks |
+| Mastra Code | ✅ Full Support | [Mastra Setup](docs/mastra.md) | Skills + Hooks |
 
 > **Note:** If your IDE uses the legacy Rules system instead of Skills, see the [`legacy-rules-support`](https://github.com/OthmanAdi/planning-with-files/tree/legacy-rules-support) branch.
+
+</details>
+
+<details>
+<summary><strong>🧱 Sandbox Runtimes (1 Platform)</strong></summary>
+
+| Runtime | Status | Guide | Notes |
+|---------|--------|-------|-------|
+| BoxLite | ✅ Documented | [BoxLite Setup](docs/boxlite.md) | Run Claude Code + planning-with-files inside hardware-isolated micro-VMs |
+
+> **Note:** BoxLite is a sandbox runtime, not an IDE. Skills load via [ClaudeBox](https://github.com/boxlite-ai/claudebox) — BoxLite’s official Claude Code integration layer.
 
 </details>
 
@@ -107,7 +151,9 @@ A Claude Code plugin that transforms your workflow to use persistent markdown fi
 [![AdaL CLI](https://img.shields.io/badge/AdaL%20CLI-Skills-9B59B6)](https://docs.sylph.ai/features/plugins-and-skills)
 [![Pi Agent](https://img.shields.io/badge/Pi%20Agent-Skills-FF4081)](https://pi.dev)
 [![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-Hooks-000000)](https://docs.github.com/en/copilot/reference/hooks-configuration)
-[![Version](https://img.shields.io/badge/version-2.16.0-brightgreen)](https://github.com/OthmanAdi/planning-with-files/releases)
+[![Mastra Code](https://img.shields.io/badge/Mastra%20Code-Skills-00BCD4)](https://code.mastra.ai)
+[![BoxLite](https://img.shields.io/badge/BoxLite-Sandbox-6C3483)](https://boxlite.ai)
+[![Version](https://img.shields.io/badge/version-2.18.2-brightgreen)](https://github.com/OthmanAdi/planning-with-files/releases)
 [![SkillCheck Validated](https://img.shields.io/badge/SkillCheck-Validated-4c1)](https://getskillcheck.com)
 
 ## Quick Install
@@ -244,7 +290,13 @@ planning-with-files/
 │   ├── windows.md
 │   ├── kilocode.md
 │   ├── codex.md
-│   └── opencode.md
+│   ├── opencode.md
+│   ├── mastra.md             # Mastra Code setup
+│   └── boxlite.md            # BoxLite sandbox setup
+├── examples/                # Integration examples
+│   └── boxlite/             # BoxLite quickstart
+│       ├── README.md
+│       └── quickstart.py
 ├── planning-with-files/     # Plugin skill folder
 │   ├── SKILL.md
 │   ├── templates/
@@ -285,6 +337,8 @@ planning-with-files/
 │   └── hooks/
 │       ├── planning-with-files.json  # Hook configuration
 │       └── scripts/         # Hook scripts (bash + PowerShell)
+├── .mastracode/             # Mastra Code skills + hooks
+│   └── skills/
 ├── CHANGELOG.md
 ├── LICENSE
 └── README.md
@@ -313,10 +367,9 @@ planning-with-files/
 | [AdaL CLI Setup](docs/adal.md) | AdaL CLI / Sylph AI integration guide |
 | [Pi Agent Setup](docs/pi-agent.md) | Pi Agent integration guide |
 | [Copilot Setup](docs/copilot.md) | GitHub Copilot hooks integration guide |
+| [Mastra Setup](docs/mastra.md) | Mastra Code integration guide |
+| [BoxLite Setup](docs/boxlite.md) | BoxLite micro-VM sandbox integration guide |
 
-## Contributors
-
-- [@codelyc](https://github.com/codelyc) — OpenCode scripts support
 
 ## Acknowledgments
 
@@ -342,4 +395,4 @@ MIT License — feel free to use, modify, and distribute.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=OthmanAdi/planning-with-files&type=Date)](https://star-history.com/#OthmanAdi/planning-with-files&Date)
+<a href="https://repostars.dev/?repos=OthmanAdi%2Fplanning-with-files&theme=copper"><img src="https://repostars.dev/api/embed?repo=OthmanAdi%2Fplanning-with-files&theme=copper" width="100%" alt="Star History Chart" /></a>

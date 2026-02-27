@@ -4,6 +4,8 @@
 # Always exits 0 — outputs JSON to stdout.
 
 # Read stdin (required — Copilot pipes JSON to stdin)
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 $InputData = [Console]::In.ReadToEnd()
 
 $PlanFile = "task_plan.md"
@@ -13,7 +15,7 @@ if (-not (Test-Path $PlanFile)) {
     exit 0
 }
 
-$content = Get-Content $PlanFile -Raw
+$content = Get-Content $PlanFile -Raw -Encoding UTF8
 
 # Count total phases
 $TOTAL = ([regex]::Matches($content, "### Phase")).Count
