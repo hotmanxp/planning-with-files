@@ -161,11 +161,11 @@ All documentation files are stored in:
 ~/.agents/skills/gemini-docs/docs/
 ```
 
-**Note**: This skill copies documentation from the Gemini CLI repository (`docs/`) to the `references/` directory. To update:
+**Note**: This skill copies documentation from the Gemini CLI repository (`docs/`). To update:
 
 ```bash
 # Pull latest docs
-cp -r /path/to/gemini-cli/docs/* ~/.agents/skills/gemini-docs/references/
+cp -r /path/to/gemini-cli/docs/* ~/.agents/skills/gemini-docs/docs/
 ```
 
 ## Usage Examples
@@ -174,28 +174,28 @@ cp -r /path/to/gemini-cli/docs/* ~/.agents/skills/gemini-docs/references/
 
 ```bash
 # Search for a specific setting
-rg "model.*routing" references/cli/settings.md
+rg "model.*routing" docs/cli/settings.md
 ```
 
 ### Example 2: Find Tool Usage
 
 ```bash
 # Find how to use a specific tool
-rg -A 5 "ReadFileTool" references/tools/file-system.md
+rg -A 5 "ReadFileTool" docs/tools/file-system.md
 ```
 
 ### Example 3: Find Tutorial
 
 ```bash
 # Find relevant tutorial
-ls references/cli/tutorials/ | grep -i "file"
+ls docs/cli/tutorials/ | grep -i "file"
 ```
 
 ## Tips
 
-1. **Use the changelogs** - Check `references/changelogs/preview.md` for latest features
-2. **Check FAQ first** - `references/resources/faq.md` has common answers
-3. **Settings are comprehensive** - `references/cli/settings.md` covers most configuration
+1. **Use the changelogs** - Check `docs/changelogs/preview.md` for latest features
+2. **Check FAQ first** - `docs/resources/faq.md` has common answers
+3. **Settings are comprehensive** - `docs/cli/settings.md` covers most configuration
 4. **Tools have examples** - Each tool doc includes usage examples
 5. **Tutorials are step-by-step** - Follow tutorials for complete workflows
 
@@ -222,5 +222,5 @@ Use this skill when:
 
 To update documentation:
 1. Pull latest changes from main repository
-2. Re-copy docs: `cp -r docs/* ~/.agents/skills/gemini-docs/references/`
+2. Re-copy docs: `cp -r docs/* ~/.agents/skills/gemini-docs/docs/`
 3. Test with sample queries
