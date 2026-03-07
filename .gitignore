@@ -9,6 +9,8 @@ Thumbs.db
 .vscode/
 .idea/
 
+.agent_working_dir
+
 # Development planning files (meta: I used this skill to build this skill!)
 research_notes.md
 notes.md

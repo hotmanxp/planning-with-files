@@ -14,14 +14,15 @@ Custom commands let you save and reuse favorite prompts as personal shortcuts wi
 
 ## File Locations & Precedence
 
-Commands are loaded from two locations (in order):
+Commands are loaded from three locations (in order of precedence, lowest to highest):
 
 | Location | Path | Scope |
 |----------|------|-------|
+| **Extension commands** | `<extension>/commands/` | Bundled with extensions |
 | **User commands** | `~/.gemini/commands/` | Global (all projects) |
 | **Project commands** | `<project>/.gemini/commands/` | Local (current project) |
 
-> **Precedence**: Project commands override user commands with the same name.
+> **Precedence**: Project commands override user commands, which override extension commands. Extension commands with conflicting names are prefixed with the extension name (e.g., `/ext:command`).
 
 ## Command Naming
 
@@ -48,6 +49,22 @@ prompt = "The prompt sent to the model"
 
 ```toml
 description = "Brief description shown in /help menu"
+model = "gemini-2.5-pro"  # Model override for this command
+```
+
+### Full Example
+
+```toml
+description = "Search code and summarize findings"
+model = "gemini-2.5-pro"
+prompt = """
+Please search for the following pattern and summarize results:
+
+Search pattern: {{args}}
+
+Results:
+!{grep -r {{args}} .}
+"""
 ```
 
 ## Creation Workflow

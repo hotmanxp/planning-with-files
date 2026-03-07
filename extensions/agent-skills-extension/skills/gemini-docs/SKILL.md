@@ -10,21 +10,24 @@ This skill provides comprehensive access to Gemini CLI documentation.
 
 ## Documentation Structure
 
-All documentation is available in the `references/` directory, organized by topic:
+All documentation is located in the Gemini CLI repository under `docs/`, organized by topic:
 
 ### Quick Reference
 
 | Topic | Location | Description |
 |-------|----------|-------------|
-| **Getting Started** | `references/get-started/` | Installation, setup, first steps |
-| **CLI Commands** | `references/cli/` | All CLI commands and features |
-| **Tools** | `references/tools/` | Built-in tools documentation |
-| **Settings** | `references/cli/settings.md` | Complete settings reference |
-| **Tutorials** | `references/cli/tutorials/` | Step-by-step guides |
-| **Core Concepts** | `references/core/` | Architecture, agents, routing |
-| **API Reference** | `references/reference/` | Technical API documentation |
-| **Resources** | `references/resources/` | FAQ, troubleshooting, quotas |
-| **Changelogs** | `references/changelogs/` | Version history and updates |
+| **Getting Started** | `docs/get-started/` | Installation, setup, first steps |
+| **CLI Commands** | `docs/cli/` | All CLI commands and features |
+| **Tools** | `docs/tools/` | Built-in tools documentation |
+| **Settings** | `docs/cli/settings.md` | Complete settings reference |
+| **Tutorials** | `docs/cli/tutorials/` | Step-by-step guides |
+| **Core Concepts** | `docs/core/` | Architecture, agents, routing, subagents |
+| **API Reference** | `docs/reference/` | Technical API documentation |
+| **Resources** | `docs/resources/` | FAQ, troubleshooting, quotas |
+| **Changelogs** | `docs/changelogs/` | Version history and updates |
+| **Extensions** | `docs/extensions/` | Extension development guides |
+| **Hooks** | `docs/hooks/` | Hook system documentation |
+| **IDE Integration** | `docs/ide-integration/` | IDE-specific features |
 
 ## How to Search
 
@@ -32,28 +35,31 @@ All documentation is available in the `references/` directory, organized by topi
 
 ```bash
 # Search for specific feature
-rg "pattern" references/
+rg "pattern" docs/
 
 # Search in specific category
-rg "pattern" references/cli/
+rg "pattern" docs/cli/
 
 # Case-insensitive search
-rg -i "pattern" references/
+rg -i "pattern" docs/
 ```
 
 ### 2. Browse by Category
 
-**CLI Features** (`references/cli/`):
+**CLI Features** (`docs/cli/`):
 - `settings.md` - All configuration options
 - `plan-mode.md` - Planning and execution
 - `skills.md` - Skills system
+- `creating-skills.md` - Creating custom skills
 - `themes.md` - UI customization
 - `telemetry.md` - Usage analytics
 - `sandbox.md` - Security isolation
 - `model.md` - Model selection
 - `model-routing.md` - Automatic model routing
+- `custom-commands.md` - Custom commands
+- `enterprise.md` - Enterprise controls
 
-**Tools** (`references/tools/`):
+**Tools** (`docs/tools/`):
 - `index.md` - Tools overview
 - `file-system.md` - Read/write files
 - `shell.md` - Command execution
@@ -63,7 +69,7 @@ rg -i "pattern" references/
 - `activate-skill.md` - Skill activation
 - `todos.md` - Task management
 
-**Tutorials** (`references/cli/tutorials/`):
+**Tutorials** (`docs/cli/tutorials/`):
 - `getting-started.md` - First steps
 - `file-management.md` - Working with files
 - `shell-commands.md` - Shell usage
@@ -75,60 +81,91 @@ rg -i "pattern" references/
 - `session-management.md` - Session handling
 - `skills-getting-started.md` - Skills tutorial
 
+**Extensions** (`docs/extensions/`):
+- `index.md` - Extension overview
+- `writing-extensions.md` - Build extensions
+- `reference.md` - Extension format reference
+- `best-practices.md` - Development best practices
+- `releasing.md` - Publishing extensions
+
+**Core** (`docs/core/`):
+- `subagents.md` - Subagents system
+- `model-router.md` - Model routing
+- `remote-agents.md` - Remote agents (A2A)
+
 ### 3. Use the Index
 
-Start with `references/index.md` for an overview of all documentation.
+Start with `docs/index.md` for an overview of all documentation.
 
 ### 4. Check sidebar.json
 
-The `references/sidebar.json` file contains the complete documentation structure and navigation hierarchy.
+The `docs/sidebar.json` file contains the complete documentation structure and navigation hierarchy.
 
 ## Common Queries
 
 ### "How do I configure X?"
-→ Check `references/cli/settings.md`
+→ Check `docs/cli/settings.md`
 
 ### "What tools are available?"
-→ Check `references/tools/index.md`
+→ Check `docs/tools/index.md`
 
 ### "How do I use skill X?"
-→ Check `references/cli/skills.md` or `references/cli/creating-skills.md`
+→ Check `docs/cli/skills.md` or `docs/cli/creating-skills.md`
+
+### "How do I create a skill?"
+→ Check `docs/cli/creating-skills.md`
 
 ### "How do I set up MCP?"
-→ Check `references/cli/tutorials/mcp-setup.md`
+→ Check `docs/cli/tutorials/mcp-setup.md`
+
+### "How do I create an extension?"
+→ Check `docs/extensions/writing-extensions.md`
 
 ### "What's new in the latest version?"
-→ Check `references/changelogs/latest.md` or `references/releases.md`
+→ Check `docs/changelogs/preview.md` or `docs/releases.md`
 
 ### "How do I troubleshoot X?"
-→ Check `references/resources/troubleshooting.md`
+→ Check `docs/resources/troubleshooting.md`
 
 ### "What are the quotas and limits?"
-→ Check `references/resources/quota-and-pricing.md`
+→ Check `docs/resources/quota-and-pricing.md`
+
+### "How do I use subagents?"
+→ Check `docs/core/subagents.md`
 
 ## Documentation Categories
 
 ### Admin & Enterprise
-- `references/admin/enterprise-controls.md` - Enterprise features
-- `references/cli/enterprise.md` - Enterprise controls
+- `docs/admin/enterprise-controls.md` - Enterprise features
+- `docs/cli/enterprise.md` - Enterprise controls
 
 ### IDE Integration
-- `references/ide-integration/` - IDE-specific features
+- `docs/ide-integration/` - IDE-specific features
 
 ### Extensions
-- `references/extensions/` - Extension system
+- `docs/extensions/` - Extension development and publishing
 
 ### Hooks
-- `references/hooks/` - Hook system for customization
+- `docs/hooks/` - Hook system for customization
 
 ### Get Started
-- `references/get-started/` - Onboarding guides
+- `docs/get-started/` - Onboarding guides
+
+### Examples
+- `docs/examples/` - Usage examples and patterns
 
 ## File Locations
 
 All documentation files are stored in:
 ```
-~/.agents/skills/gemini-docs/references/
+~/.agents/skills/gemini-docs/docs/
+```
+
+**Note**: This skill copies documentation from the Gemini CLI repository (`docs/`) to the `references/` directory. To update:
+
+```bash
+# Pull latest docs
+cp -r /path/to/gemini-cli/docs/* ~/.agents/skills/gemini-docs/references/
 ```
 
 ## Usage Examples

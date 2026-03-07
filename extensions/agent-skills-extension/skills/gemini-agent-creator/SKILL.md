@@ -20,13 +20,9 @@ Subagents are specialized agents that operate within your main Gemini CLI sessio
 
 ## Enabling Subagents
 
-Subagents must be explicitly enabled in `settings.json`:
+Subagents are enabled by default in Gemini CLI. No explicit configuration is required.
 
-```json
-{
-  "experimental": { "enableAgents": true }
-}
-```
+> **Note**: In earlier versions, subagents required enabling via `settings.json`. This is no longer necessary in current versions.
 
 ## Agent Definition Format
 
@@ -68,9 +64,9 @@ Agent instructions here...
 | `kind` | string | No | `local` (default) or `remote` |
 | `tools` | array | No | List of tool names this agent can use |
 | `model` | string | No | Specific model (e.g., `gemini-2.5-pro`). Defaults to `inherit` |
-| `temperature` | number | No | Model temperature (0.0 - 2.0) |
-| `max_turns` | number | No | Maximum conversation turns. Default: `15` |
-| `timeout_mins` | number | No | Maximum execution time in minutes. Default: `5` |
+| `temperature` | number | No | Model temperature (0.0 - 2.0). Default varies by model |
+| `max_turns` | number | No | Maximum conversation turns |
+| `timeout_mins` | number | No | Maximum execution time in minutes |
 
 ## Creation Workflow
 
@@ -462,10 +458,14 @@ Gemini CLI includes these built-in subagents:
 
 | Agent | Name | Purpose |
 |-------|------|---------|
-| **Codebase Investigator** | `codebase_investigator` | Analyze codebase, reverse engineer, understand dependencies |
-| **CLI Help Agent** | `cli_help` | Expert knowledge about Gemini CLI itself |
-| **Generalist Agent** | `generalist_agent` | Routes tasks to appropriate specialized subagents |
-| **Browser Agent** | `browser_agent` | Automate web browser tasks (experimental) |
+| **Codebase Investigator** | `codebase_investigator` | Analyze codebase, architectural mapping, understand system-wide dependencies |
+| **CLI Help** | `cli_help` | Expert knowledge about Gemini CLI features, commands, and configuration |
+| **Generalist** | `generalist` | General-purpose agent for turn-intensive tasks and high-volume output |
+| **Browser Agent** | `browser_agent` | Automate web browser tasks (experimental, requires enablement) |
+| **Code Reviewer** | `code-reviewer` | Reviews code for quality, security, and best practices |
+| **Test Agent** | `test-agent` | Helps with test-related tasks |
+
+> **Note**: The `generalist` subagent is automatically invoked for complex tasks to compress work and keep the main session context lean.
 
 ## Browser Agent Configuration
 

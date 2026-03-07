@@ -18,12 +18,37 @@ Skills are modular packages that extend Gemini CLI's capabilities with specializ
 skill-name/
 ├── SKILL.md (required)
 │   ├── YAML frontmatter (name, description)
-│   └── Markdown instructions
+│   └── Markdown instructions (under 500 lines)
 └── Bundled Resources (optional)
-    ├── scripts/          - Executable code
-    ├── references/       - Documentation
-    └── assets/           - Templates, files
+    ├── scripts/          - Executable code for deterministic operations
+    ├── references/       - Documentation, schemas, API specs
+    └── assets/           - Templates, boilerplate files
 ```
+
+### SKILL.md Format
+
+```markdown
+---
+name: skill-name
+description: Single-line description with triggers and use cases
+---
+
+# Skill Title
+
+Skill instructions here.
+
+## Usage
+
+How to use the skill.
+
+## Examples
+
+Concrete examples.
+```
+
+**Frontmatter requirements:**
+- `name`: Lowercase, digits, hyphens only, under 64 characters
+- `description`: Clear description with when-to-use guidance
 
 ## Creation Workflow
 
@@ -77,59 +102,115 @@ Create the planned resources:
 
 ### Step 5: Test the Skill
 
-Test in development:
-1. Link the skill: `gemini skills link ~/.agents/skills/skill-name`
-2. Test with real queries
-3. Iterate based on results
-
-### Step 6: Package (Optional)
-
-For distribution:
+**Link for development:**
 ```bash
-# Use the built-in skill-creator scripts if available
-node <skill-creator-path>/scripts/package_skill.cjs <skill-folder>
+# Link skill directory
+gemini skills link ~/.agents/skills/skill-name
+
+# Or link from extension
+gemini skills link /path/to/extension/skills/skill-name
 ```
 
-### Step 7: Install
+**Test with real queries:**
+1. Start Gemini CLI
+2. Test trigger conditions: "When should this skill activate?"
+3. Verify skill behavior matches expectations
+4. Check context usage and response quality
 
-Install the skill:
+**Iterate based on results:**
+- Refine description if not triggering correctly
+- Simplify instructions if responses are verbose
+- Add examples if behavior is unclear
+
+### Step 6: Package and Publish
+
+**Package skill (optional):**
 ```bash
-# User scope (global)
-gemini skills install <path/to/skill.skill> --scope user
+# Skills are typically bundled in extensions
+# No separate packaging needed
 
-# Workspace scope (local)
-gemini skills install <path/to/skill.skill> --scope workspace
+# If distributing standalone:
+zip -r skill-name.zip skill-name/
 ```
 
-After installation, run `/skills reload` to enable.
+**Publish via extension:**
+1. Add skill to extension's `skills/` directory
+2. Update `gemini-extension.json` with skill reference
+3. Publish extension to GitHub or npm
+4. Add `gemini-cli-extension` topic for gallery listing
+
+**Skills auto-discover:**
+- Skills in `skills/` directory are automatically loaded
+- No manifest entry required for skills
+- Each skill needs valid `SKILL.md` with frontmatter
+
+### Step 7: Install (for users)
+
+**Install skill via extension:**
+```bash
+# Install from GitHub
+gemini extensions install https://github.com/user/repo
+
+# Install from local path
+gemini extensions install ./my-extension
+```
+
+**Reload skills:**
+```bash
+# In Gemini CLI
+/skills reload
+```
 
 ## Design Principles
 
 ### Progressive Disclosure
 
 Three-level loading:
-1. **Metadata** (name + description) - Always loaded
-2. **SKILL.md body** - When skill triggers
-3. **Bundled resources** - As needed
+1. **Metadata** (name + description) - Always loaded for agent decision-making
+2. **SKILL.md body** - Loaded when skill is triggered
+3. **Bundled resources** - Loaded on-demand as needed
+
+This approach saves context tokens and keeps the main session lean.
 
 ### Concise is Key
 
 - Only add context Gemini CLI doesn't already have
 - Prefer concise examples over verbose explanations
-- Move detailed references to separate files
+- Move detailed references to separate files in `references/`
+- Keep SKILL.md under 500 lines
+- Use imperative/infinitive form in instructions
 
 ### Appropriate Freedom
 
 **High freedom**: Text instructions for flexible tasks
+- Example: "Review the code for security issues"
+
 **Medium freedom**: Pseudocode or parameterized scripts
+- Example: "Run `scripts/analyze.py --input={{file}}`"
+
 **Low freedom**: Specific scripts for critical operations
+- Example: "Execute `scripts/rotate_pdf.cjs` with exact parameters"
 
-## Skill Naming
+### Skill Naming
 
-- Lowercase, digits, hyphens only
+- Lowercase, digits, hyphens only: `code-review`, `pdf-rotator`
 - Under 64 characters
-- Verb-led phrases (e.g., `code-review`, `pdf-editor`)
-- Namespace by tool when helpful (e.g., `gh-pr-review`)
+- Verb-led phrases when helpful: `rotate-pdf`, `audit-security`
+- Namespace by tool when helpful: `gh-pr-review`, `npm-audit`
+
+### Trigger Design
+
+The `description` field determines when the main agent activates the skill:
+
+**Good descriptions:**
+- "Rotate PDF pages by 90, 180, or 270 degrees"
+- "Security auditor for web applications: SQL injection, XSS, hardcoded credentials"
+- "Git expert for commits, rebasing, bisect, PR workflows"
+
+**Bad descriptions:**
+- "Helps with stuff" (too vague)
+- "Code agent" (not specific)
+- "Does things" (no use cases)
 
 ## Examples
 
@@ -202,21 +283,68 @@ node scripts/generate_report.py --query <query_name> --output <file>
 
 ### Don't Include
 
-- README.md or INSTALLATION_GUIDE.md
-- CHANGELOG.md or version history
-- Auxiliary documentation about the skill creation process
+- **README.md or installation guides**: Skills auto-install via extensions
+- **CHANGELOG.md or version history**: Keep version info in git tags
+- **Auxiliary documentation**: About the skill creation process itself
+- **Verbose explanations**: Move detailed docs to `references/`
+- **Redundant context**: Information Gemini CLI already has
 
 ### Do Include
 
-- Essential procedural instructions
-- Scripts for repeatable operations
-- Reference documentation for domain knowledge
-- Templates and assets for output generation
+- **Essential procedural instructions**: Clear, actionable steps
+- **Scripts for repeatable operations**: Deterministic, tested code
+- **Reference documentation**: Schemas, API specs, domain knowledge
+- **Templates and assets**: Boilerplate for output generation
+- **Concrete examples**: Show, don't just tell
+- **Trigger conditions**: When to activate the skill
 
 ## Iteration
 
 After deployment:
-1. Monitor skill performance
+1. Monitor skill performance in real usage
 2. Identify struggles or inefficiencies
-3. Update SKILL.md or resources
+3. Update SKILL.md or resources based on feedback
 4. Re-test and re-package
+5. Release updated version with changelog
+
+## Troubleshooting
+
+### Skill Not Triggering
+
+**Check description:**
+- Is it specific enough?
+- Does it mention use cases?
+- Would the main agent understand when to use it?
+
+**Test trigger conditions:**
+```bash
+# Ask directly
+"Use the <skill-name> skill to..."
+
+# Check available skills
+/skills list
+```
+
+### Skill Making Mistakes
+
+**Refine instructions:**
+- Add clearer constraints
+- Provide more examples
+- Reduce temperature in complex tasks
+
+**Add guardrails:**
+- Specify what NOT to do
+- Include error handling
+- Add validation steps
+
+### Skill Taking Too Long
+
+**Optimize instructions:**
+- Set clear scope boundaries
+- Add explicit stopping criteria
+- Limit iterations with "do X, then stop"
+
+**Reduce context:**
+- Move verbose references to separate files
+- Use progressive disclosure
+- Keep SKILL.md concise
