@@ -33,7 +33,15 @@ Create `.md` files in `commands/` directory:
 | **Project** | `.opencode/commands/*.md` |
 | **Global** | `~/.config/opencode/commands/*.md` |
 
-**File naming**: Filename becomes command name (`test.md` → `/test`)
+**File naming**: Filename becomes command name (`commit.md` → `/commit`)
+
+**Example commands from OpenCode repo:**
+- `commit.md` - Git commit and push with proper prefixes
+- `learn.md` - Extract learnings to AGENTS.md files
+- `issues.md` - Search GitHub issues
+- `ai-deps.md` - AI dependencies management
+- `rmslop.md` - Remove slop
+- `spellcheck.md` - Spell checking
 
 ### Method 2: JSON Configuration
 

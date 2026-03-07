@@ -10,21 +10,20 @@ This skill provides comprehensive access to OpenCode documentation.
 
 ## Documentation Structure
 
-All documentation is available in the `references/` directory, organized by topic:
+OpenCode documentation is located in `packages/docs/` and `.opencode/` directories:
 
 ### Quick Reference
 
 | Topic | Location | Description |
 |-------|----------|-------------|
-| **Getting Started** | `references/index.mdx` | Introduction and quickstart |
-| **CLI** | `references/cli.mdx` | Command line interface |
-| **SDK** | `references/sdk.mdx` | Software development kit |
-| **Agents** | `references/agents/` | Agent definitions and behaviors |
-| **Tools** | `references/tools.mdx` | Available tools |
-| **Plugins** | `references/plugins.mdx` | Plugin system |
-| **Enterprise** | `references/enterprise/` | Enterprise features |
-| **Web/Desktop** | `references/web/` | UI applications |
-| **Development** | `references/development.mdx` | Contributing guide |
+| **Getting Started** | `packages/docs/index.mdx` | Introduction and quickstart |
+| **Quickstart** | `packages/docs/quickstart.mdx` | Installation and setup |
+| **Development** | `packages/docs/development.mdx` | Contributing guide |
+| **Essentials** | `packages/docs/essentials/` | Core usage guides |
+| **AI Tools** | `packages/docs/ai-tools/` | IDE integrations |
+| **Agents** | `.opencode/agents/` | Agent definitions |
+| **Commands** | `.opencode/commands/` | Custom commands |
+| **Glossary** | `.opencode/glossary/` | Locale-specific glossaries |
 
 ## How to Search
 
@@ -32,123 +31,140 @@ All documentation is available in the `references/` directory, organized by topi
 
 ```bash
 # Search for specific feature
-rg "pattern" references/
+rg "pattern" packages/docs/
 
 # Search in specific category
-rg "pattern" references/agents/
+rg "pattern" packages/docs/essentials/
+
+# Search agent definitions
+rg "pattern" .opencode/agents/
 
 # Case-insensitive search
-rg -i "pattern" references/
+rg -i "pattern" packages/docs/
 ```
 
 ### 2. Browse by Category
 
-**Core Documentation** (`references/*.mdx`):
+**Core Documentation** (`packages/docs/*.mdx`):
 - `index.mdx` - Documentation homepage
 - `quickstart.mdx` - Getting started guide
-- `cli.mdx` - CLI usage and commands
-- `sdk.mdx` - SDK API reference
-- `agents.mdx` - Agent system
-- `tools.mdx` - Available tools
-- `plugins.mdx` - Plugin architecture
-- `config.mdx` - Configuration options
-- `formatters.mdx` - Code formatters
+- `development.mdx` - Development and contributing
 
-**Agent Definitions** (`references/agents/`):
-- `docs.md` - Documentation writing guidelines
-- `translator.md` - Translation agent
-- `triage.md` - Issue triage agent
-- `duplicate-pr.md` - Duplicate PR detection
-
-**Commands** (`references/commands/`):
-- `learn.md` - Learning command
-- `commit.md` - Commit helper
-- `issues.md` - Issue management
-- `ai-deps.md` - AI dependencies
-- `rmslop.md` - Remove slop
-- `spellcheck.md` - Spell checking
-
-**Essentials** (`references/essentials/`):
+**Essentials** (`packages/docs/essentials/`):
 - `settings.mdx` - Settings reference
 - `markdown.mdx` - Markdown guide
 - `code.mdx` - Code guidelines
 - `navigation.mdx` - Navigation
 - `images.mdx` - Image handling
+- `reusable-snippets.mdx` - Reusable snippets
 
-**AI Tools** (`references/ai-tools/`):
+**AI Tools** (`packages/docs/ai-tools/`):
 - `cursor.mdx` - Cursor integration
 - `claude-code.mdx` - Claude Code integration
 - `windsurf.mdx` - Windsurf integration
 
-### 3. Use the Index
+**Agent Definitions** (`.opencode/agents/`):
+- `docs.md` - Documentation writing guidelines
+- `translator.md` - Translation agent
+- `triage.md` - Issue triage agent
+- `duplicate-pr.md` - Duplicate PR detection
 
-Start with `references/index.mdx` for an overview.
+**Commands** (`.opencode/commands/`):
+- `learn.md` - Extract learnings to AGENTS.md
+- `commit.md` - Git commit and push
+- `issues.md` - Search GitHub issues
+- `ai-deps.md` - AI dependencies
+- `rmslop.md` - Remove slop
+- `spellcheck.md` - Spell checking
 
-### 4. Check docs.json
+**Glossary** (`.opencode/glossary/`):
+- Locale-specific translation glossaries (e.g., `zh-cn.md`, `br.md`)
+- Used by translator agent for localization
 
-The `references/docs.json` file contains the complete documentation structure and navigation.
+### 3. Use docs.json
+
+The `packages/docs/docs.json` file contains the documentation structure.
+
+### 4. Use openapi.json
+
+The `packages/docs/openapi.json` file contains the complete API specification.
 
 ## Common Queries
 
 ### "How do I install OpenCode?"
-→ Check `references/quickstart.mdx`
-
-### "What CLI commands are available?"
-→ Check `references/cli.mdx`
-
-### "How do I use the SDK?"
-→ Check `references/sdk.mdx` and `references/openapi.json`
-
-### "How do I create an agent?"
-→ Check `references/agents/` directory
+→ Check `packages/docs/quickstart.mdx`
 
 ### "How do I configure settings?"
-→ Check `references/essentials/settings.mdx`
+→ Check `packages/docs/essentials/settings.mdx`
+
+### "How do I create an agent?"
+→ Check `.opencode/agents/` directory for examples
+
+### "How do I create a custom command?"
+→ Check `.opencode/commands/` directory for examples
 
 ### "How do I contribute?"
-→ Check `references/development.mdx` or `CONTRIBUTING.md`
+→ Check `packages/docs/development.mdx` or `CONTRIBUTING.md`
 
-### "What tools are available?"
-→ Check `references/tools.mdx`
+### "How do I use the SDK?"
+→ Check `packages/docs/openapi.json` for API spec
 
-### "How do I set up MCP servers?"
-→ Check `references/mcp-servers.mdx` (if exists) or `references/plugins.mdx`
+### "How do I set up translation?"
+→ Check `.opencode/agent/translator.md` and `.opencode/glossary/`
+
+### "How do I search issues?"
+→ Check `.opencode/command/issues.md`
 
 ## Documentation Categories
 
 ### Core
-- CLI interface and commands
-- SDK and API
-- Configuration
-- Agents system
-- Tools
-- Plugins
+- Installation and quickstart
+- Development workflow
+- Settings and configuration
+- Navigation and UI
+
+### Agents
+- Primary agents (Build, Plan)
+- Subagents (General, Explore)
+- Custom agents (`.opencode/agents/`)
+- Agent configuration
+
+### Commands
+- Built-in commands (`/help`, `/undo`, `/redo`)
+- Custom commands (`.opencode/commands/`)
+- Command templates
 
 ### Integrations
-- GitHub
+- GitHub (issues, PRs)
 - GitLab
 - MCP servers
-- IDE integrations
-- Cursor
-- Claude Code
-- Windsurf
+- IDE integrations (Cursor, Claude Code, Windsurf, Zed)
+- LSP
 
 ### Development
-- Local development setup
-- Building
+- Building from source
 - Testing
 - Documentation guidelines
-
-### Enterprise
-- Enterprise controls
-- Team features
-- Administration
+- Code style
 
 ## File Locations
 
 All documentation files are stored in:
 ```
-~/.agents/skills/opencode-docs/references/
+~/.agents/skills/opencode-docs/packages/docs/
+.opencode/agents/
+.opencode/commands/
+.opencode/glossary/
+```
+
+**Note**: To update this skill, copy the latest docs from opencode repository:
+
+```bash
+# Pull latest docs
+cp -r /path/to/opencode/packages/docs/* ~/.agents/skills/opencode-docs/packages/docs/
+cp -r /path/to/opencode/.opencode/agents ~/.agents/skills/opencode-docs/.opencode/
+cp -r /path/to/opencode/.opencode/commands ~/.agents/skills/opencode-docs/.opencode/
+cp -r /path/to/opencode/.opencode/glossary ~/.agents/skills/opencode-docs/.opencode/
 ```
 
 ## Usage Examples
@@ -186,24 +202,33 @@ rg "client\." references/sdk.mdx
 
 Use this skill when:
 - User asks "How do I..." questions about OpenCode
-- User needs information about features, commands, or configuration
-- User wants to understand agent or tool capabilities
+- User needs information about features, commands, agents, or configuration
+- User wants to understand agent capabilities or command behavior
 - User needs troubleshooting help
 - User asks about SDK or API usage
-- User wants to contribute or develop
-- User needs integration setup help
+- User wants to contribute or develop for OpenCode
+- User needs integration setup help (MCP, LSP, IDE)
+- User asks about translation/localization
 
 ## Search Strategy
 
-1. **Identify the topic** - CLI, SDK, agents, tools, etc.
-2. **Navigate to category** - Go to appropriate subdirectory
+1. **Identify the topic**
+   - Agents → `.opencode/agents/`
+   - Commands → `.opencode/commands/`
+   - Usage docs → `packages/docs/essentials/`
+   - API → `packages/docs/openapi.json`
+
+2. **Navigate to category** - Go to the appropriate subdirectory
+
 3. **Search or browse** - Use grep for specific terms or browse files
-4. **Cross-reference** - Check related documents
-5. **Verify with openapi.json** - For API questions
+
+4. **Cross-reference** - Check related documents (e.g., AGENTS.md for code style)
+
+5. **Check glossary** - For translation questions, see `.opencode/glossary/<locale>.md`
 
 ## Build & Development Commands
 
-From `AGENTS.md`:
+From `AGENTS.md` and `packages/docs/development.mdx`:
 
 ### Root Commands
 ```bash
@@ -230,20 +255,57 @@ bun run db generate --name <slug>  # Generate migration
 ./packages/opencode/script/build.ts --single
 ```
 
+### SDK
+```bash
+# Regenerate JavaScript SDK
+./packages/sdk/js/script/build.ts
+```
+
 ## Code Style
 
 From `AGENTS.md`:
 
-- Keep things in one function unless composable
+### General Principles
+- Keep things in one function unless composable or reusable
 - Avoid `try`/`catch` where possible
-- Avoid using `any` type
+- Avoid using the `any` type
+- Prefer single word variable names where possible
 - Use Bun APIs when possible
-- Prefer functional array methods
-- Single word names for variables
+- Rely on type inference; avoid explicit type annotations unless necessary
+
+### Naming
+- Use single word names by default for locals, params, helper functions
+- Multi-word names only when necessary for clarity
+- Prefer: `pid`, `cfg`, `err`, `opts`, `dir`, `root`, `child`, `state`
+- Avoid: `inputPID`, `existingClient`, `connectTimeout`
+
+### Destructuring
+- Avoid unnecessary destructuring
+- Use dot notation to preserve context
+
+### Control Flow
+- Avoid `else` statements
+- Prefer early returns
+
+### Schema Definitions (Drizzle)
+- Use snake_case for field names
+- Don't redefine column names as strings
+
+### Testing
+- Avoid mocks as much as possible
+- Test actual implementation
+- Run tests from package directories (not repo root)
 
 ## Documentation Updates
 
-To update documentation:
-1. Pull latest changes from main repository
-2. Re-copy docs: `cp -r packages/docs/* ~/.agents/skills/opencode-docs/references/`
+To update this skill's documentation:
+
+1. Pull latest changes from opencode repository
+2. Re-copy docs:
+   ```bash
+   cp -r /path/to/opencode/packages/docs/* ~/.agents/skills/opencode-docs/packages/docs/
+   cp -r /path/to/opencode/.opencode/agents ~/.agents/skills/opencode-docs/.opencode/
+   cp -r /path/to/opencode/.opencode/commands ~/.agents/skills/opencode-docs/.opencode/
+   cp -r /path/to/opencode/.opencode/glossary ~/.agents/skills/opencode-docs/.opencode/
+   ```
 3. Test with sample queries

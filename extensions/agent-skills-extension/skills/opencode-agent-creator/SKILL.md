@@ -84,33 +84,34 @@ Configure in `opencode.json`:
 ### Method 2: Markdown Files
 
 Create agent files in:
+- **Project**: `.opencode/agents/` (e.g., `.opencode/agents/docs.md`)
 - **Global**: `~/.config/opencode/agents/`
-- **Project**: `.opencode/agents/`
 
-**File naming**: The filename becomes the agent name (e.g., `review.md` → `review` agent)
+**File naming**: The filename becomes the agent name (e.g., `docs.md` → `docs` agent)
+
+**File format**: YAML frontmatter + optional system prompt
 
 ```markdown
-# ~/.config/opencode/agents/review.md
+# .opencode/agents/docs.md
 ---
-description: Reviews code for quality and best practices
-mode: subagent
-model: anthropic/claude-sonnet-4-20250514
-temperature: 0.1
-tools:
-  write: false
-  edit: false
-  bash: false
+description: ALWAYS use this when writing docs
+color: "#38A3EE"
 ---
 
-You are in code review mode. Focus on:
+You are an expert technical documentation writer
 
-- Code quality and best practices
-- Potential bugs and edge cases
-- Performance implications
-- Security considerations
+You are not verbose
 
-Provide constructive feedback without making direct changes.
+Use a relaxed and friendly tone
+
+[...agent instructions...]
 ```
+
+**Example agents from OpenCode repo:**
+- `docs.md` - Documentation writer agent
+- `triage.md` - GitHub issue triage agent
+- `translator.md` - Translation/localization agent
+- `duplicate-pr.md` - Duplicate PR detection agent
 
 ## Configuration Options
 
@@ -505,6 +506,14 @@ This interactive command:
 4. Selects tools
 5. Creates markdown file
 
+### List Agents
+
+```bash
+opencode agent list
+```
+
+Shows all available agents (primary, subagents, custom).
+
 ## Agent Templates
 
 ### Template 1: Code Reviewer
@@ -849,17 +858,23 @@ Help users navigate complex Git scenarios and maintain clean version history.
 
 ### Primary Agents
 
-| Agent | Mode | Tools | Purpose |
-|-------|------|-------|---------|
-| **Build** | Primary | All enabled | Default development work |
-| **Plan** | Primary | Read-only, bash=ask | Analysis without changes |
+OpenCode includes these built-in primary agents:
 
-### Subagents
+| Agent | Mode | Purpose |
+|-------|------|---------|
+| **Build** | Primary | Default agent with all tools enabled |
+| **Plan** | Primary | Restricted agent for planning/analysis (no edits) |
 
-| Agent | Mode | Tools | Purpose |
-|-------|------|-------|---------|
-| **General** | Subagent | All (except todo) | Complex, multi-step tasks |
-| **Explore** | Subagent | Read-only | Fast codebase exploration |
+### Example Project Agents
+
+OpenCode repo includes these example agents in `.opencode/agents/`:
+
+| Agent | Mode | Purpose |
+|-------|------|---------|
+| **docs** | Primary | Documentation writer specialist |
+| **triage** | Primary (hidden) | GitHub issue triage with github-triage tool |
+| **translator** | Subagent | Translation/localization specialist |
+| **duplicate-pr** | Primary (hidden) | Duplicate PR detection with github-pr-search tool |
 
 ### System Agents (Hidden)
 
