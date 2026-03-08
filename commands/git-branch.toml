@@ -1,0 +1,88 @@
+description = "切换 Git 分支：提供分支名直接切换，否则列出最近 4 个常用分支供选择"
+prompt = """
+请帮助用户切换 Git 分支。
+
+## 执行逻辑
+
+### 步骤 0: 检查是否有未提交的代码变动
+在执行任何分支切换操作前，先检查当前工作区状态：
+```bash
+git status --porcelain
+```
+- 如果有未提交的变动：
+  - **必须**询问用户是否要贮藏（stash）这些变动
+  - 如果用户同意，执行 `git stash push -m "WIP before switching branch"`
+  - 切换分支后，**必须**询问用户是否要恢复贮藏的变动（`git stash pop`）
+
+### 情况 1：用户提供了分支名
+如果用户指定了分支名（例如 `/git-branch feature/login`），则：
+1. 检查该分支是否存在（本地或远程）：
+   ```bash
+   git show-ref --verify --quiet refs/heads/<branch-name>
+   git show-ref --verify --quiet refs/remotes/origin/<branch-name>
+   ```
+2. 如果本地分支存在，直接切换：`git checkout <branch-name>`
+3. 如果只有远程分支存在，创建并追踪：`git checkout -b <branch-name> origin/<branch-name>`
+4. 如果都不存在，**使用 ask-user 工具**询问用户是否要新建该分支
+
+### 情况 2：用户未提供分支名
+如果用户没有指定分支名（例如 `/git-branch`），则按以下步骤执行：
+
+#### 步骤 2.1: 获取分支列表
+```bash
+# 获取最近使用的 10 个本地分支（按最后提交时间排序）
+git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/ | head -10
+
+# 获取当前所在分支
+git branch --show-current
+```
+
+#### 步骤 2.2: 展示分支列表并让用户选择
+**必须使用 ask-user 工具**，按以下格式展示选项：
+
+1. 显示当前分支（用 📍 标记）
+2. 列出最近 4 个常用分支（排除当前分支）
+3. 提供选项格式：
+   - 选项 1-4：对应 4 个最近分支
+   - 选项 5：「输入其他分支名」
+   - 选项 6：「取消操作」
+
+**ask-user 调用示例：**
+```
+header: "选择分支"
+question: "当前分支：main-local\n\n请选择要切换的分支："
+type: "choice"
+options: [
+  { label: "main", description: "切换到 main 分支" },
+  { label: "refactor/low-conflict", description: "切换到 refactor/low-conflict 分支" },
+  { label: "bugfix/lsp-find", description: "切换到 bugfix/lsp-find 分支" },
+  { label: "main-auth", description: "切换到 main-auth 分支" },
+  { label: "其他分支", description: "手动输入分支名" },
+  { label: "取消", description: "取消分支切换操作" }
+]
+```
+
+#### 步骤 2.3: 处理用户选择
+- 如果用户选择 1-4：直接切换到对应分支
+- 如果用户选择「其他分支」：
+  - **使用 ask-user 工具**（type: "text"）让用户输入分支名
+  - 检查该分支是否存在
+  - 存在则切换，不存在则询问是否新建
+- 如果用户选择「取消」：结束操作，不执行任何切换
+
+#### 步骤 2.4: 执行切换
+```bash
+git checkout <selected-branch>
+```
+
+#### 步骤 2.5: 确认结果
+切换完成后，显示：
+```bash
+git status
+git log --oneline -3
+```
+
+## 参数说明
+- 有参数：`/git-branch <branch-name>` - 直接切换到指定分支
+- 无参数：`/git-branch` - 使用 ask-user 工具展示交互式选择界面
+"""
