@@ -1,0 +1,32 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "name": "gemini-loop-init",
+            "type": "command",
+            "command": "node ${extensionPath}${/}scripts${/}init-hook.js",
+            "timeout": 5000,
+            "description": "Initialize Gemini Loop extension on session start"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "gemini-loop-event-handler",
+            "type": "command",
+            "command": "node ${extensionPath}${/}hooks${/}event-dispatcher.js",
+            "timeout": 10000,
+            "description": "Handle loop events after agent completes"
+          }
+        ]
+      }
+    ]
+  }
+}

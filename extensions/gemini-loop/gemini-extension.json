@@ -1,0 +1,28 @@
+{
+  "name": "gemini-loop",
+  "version": "1.0.0",
+  "description": "Self-referential development loop for Gemini CLI - continuous autonomous work until task completion",
+  "author": "Generated from oh-my-opencode",
+  "license": "MIT",
+  "engines": {
+    "gemini": ">=2.0.0"
+  },
+  "contextFileName": "GEMINI.md",
+  "excludeTools": [],
+  "plan": {
+    "directory": ".agent_working_dir/loops/plans"
+  },
+  "config": {
+    "geminiLoop": {
+      "enabled": true,
+      "stateDir": ".agent_working_dir/loops",
+      "defaultMaxIterations": 100,
+      "defaultStrategy": "continue",
+      "apiTimeoutMs": 5000,
+      "ultrawork": {
+        "enabled": true,
+        "oracleModel": "gemini-2.5-pro"
+      }
+    }
+  }
+}
