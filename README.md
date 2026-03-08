@@ -4,6 +4,9 @@
 
 [![Closed Issues](https://img.shields.io/github/issues-closed/OthmanAdi/planning-with-files?color=success)](https://github.com/OthmanAdi/planning-with-files/issues?q=is%3Aissue+is%3Aclosed)
 [![Closed PRs](https://img.shields.io/github/issues-pr-closed/OthmanAdi/planning-with-files?color=success)](https://github.com/OthmanAdi/planning-with-files/pulls?q=is%3Apr+is%3Aclosed)
+[![Benchmark](https://img.shields.io/badge/Benchmark-96.7%25_pass_rate-brightgreen)](docs/evals.md)
+[![A/B Verified](https://img.shields.io/badge/A%2FB_Blind-3%2F3_wins-brightgreen)](docs/evals.md)
+[![Security Verified](https://img.shields.io/badge/Security-Audited_%26_Fixed_v2.21.0-blue)](docs/evals.md)
 
 <details>
 <summary><strong>💬 A Note from the Author</strong></summary>
@@ -31,27 +34,7 @@ If this skill helps you work smarter, that's all I wanted.
 <details>
 <summary><strong>🤝 Contributors</strong></summary>
 
-Everyone who made this project better — bug reports, PRs, and integrations.
-
-| Contributor | Contribution |
-|-------------|-------------|
-| [@popey](https://github.com/popey) | Skill metadata & discoverability fixes (PR #83) |
-| [@lincolnwan](https://github.com/lincolnwan) | GitHub Copilot hooks support (PR #80) |
-| [@gydx6](https://github.com/gydx6) | Session catchup false-positive fix (PR #79) |
-| [@ciberponk](https://github.com/ciberponk) | Isolated plan sessions with UUID pinning (PR #77) |
-| [@jonthebeef](https://github.com/jonthebeef) | `/plan:status` command (PR #75) |
-| [@codelyc](https://github.com/codelyc) | OpenCode scripts + CodeBuddy path fixes (PRs #76, #70, #66) |
-| [@ttttmr](https://github.com/ttttmr) | Pi Agent integration (PR #67) |
-| [@AZLabsAI](https://github.com/AZLabsAI) | OpenClaw docs update (PR #65) |
-| [@ZWkang](https://github.com/ZWkang) | CodeBuddy integration (PR #60) |
-| [@SaladDay](https://github.com/SaladDay) | POSIX stop hook fix (PR #57) |
-| [@murphyXu](https://github.com/murphyXu) | Continue IDE integration (PR #56) |
-| [@Guozihong](https://github.com/Guozihong) | Start command (PR #51) |
-| [@fahmyelraie](https://github.com/fahmyelraie) | Stop hook path resolution fix (PR #49) |
-| [@olgasafonova](https://github.com/olgasafonova) | SkillCheck validation badge (PR #46) |
-| [@lasmarois](https://github.com/lasmarois) | Session catchup cross-session improvements (PRs #37, #34) |
-| [@RioTheGreat-ai](https://github.com/RioTheGreat-ai) | AgentFund community extension (PR #72) |
-| [@Hexiaopi](https://github.com/Hexiaopi) | Copilot garbled characters bug report (Issue #82) |
+See the full list of everyone who made this project better in [CONTRIBUTORS.md](./CONTRIBUTORS.md).
 
 </details>
 
@@ -111,7 +94,7 @@ When your context fills up and you run `/clear`, this skill **automatically reco
 | Cursor | ✅ Full Support | [Cursor Setup](docs/cursor.md) | Skills + Hooks |
 | Continue | ✅ Full Support | [Continue Setup](docs/continue.md) | Skills + Prompt files |
 | Kilocode | ✅ Full Support | [Kilocode Setup](docs/kilocode.md) | Skills |
-| OpenCode | ✅ Full Support | [OpenCode Setup](docs/opencode.md) | Personal/Project Skill |
+| OpenCode | ⚠️ Partial Support | [OpenCode Setup](docs/opencode.md) | Personal/Project Skill (session catchup limited) |
 | Codex | ✅ Full Support | [Codex Setup](docs/codex.md) | Personal Skill |
 | FactoryAI Droid | ✅ Full Support | [Factory Setup](docs/factory.md) | Workspace/Personal Skill |
 | Antigravity | ✅ Full Support | [Antigravity Setup](docs/antigravity.md) | Workspace/Personal Skill |
@@ -251,6 +234,19 @@ Invoke with:
 
 See [docs/quickstart.md](docs/quickstart.md) for the full 5-step guide.
 
+## Benchmark Results
+
+Formally evaluated using Anthropic's [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) framework (v2.22.0). 10 parallel subagents, 5 task types, 30 objectively verifiable assertions, 3 blind A/B comparisons.
+
+| Test | with_skill | without_skill |
+|------|-----------|---------------|
+| Pass rate (30 assertions) | **96.7%** (29/30) | 6.7% (2/30) |
+| 3-file pattern followed | 5/5 evals | 0/5 evals |
+| Blind A/B wins | **3/3 (100%)** | 0/3 |
+| Avg rubric score | **10.0/10** | 6.8/10 |
+
+[Full methodology and results](docs/evals.md) · [Technical write-up](docs/article.md)
+
 ## Key Rules
 
 1. **Create Plan First** — Never start without `task_plan.md`
@@ -346,29 +342,7 @@ planning-with-files/
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Installation Guide](docs/installation.md) | All installation methods (plugin, manual, Cursor, Windows) |
-| [Quick Start](docs/quickstart.md) | 5-step guide to using the pattern |
-| [Workflow Diagram](docs/workflow.md) | Visual diagram of how files and hooks interact |
-| [Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
-| [Gemini CLI Setup](docs/gemini.md) | Google Gemini CLI integration guide |
-| [OpenClaw Setup](docs/openclaw.md) | OpenClaw integration guide |
-| [Kiro Setup](docs/kiro.md) | Kiro steering files integration |
-| [Cursor Setup](docs/cursor.md) | Cursor IDE-specific instructions |
-| [Continue Setup](docs/continue.md) | Continue integration guide (skills + slash prompt) |
-| [Windows Setup](docs/windows.md) | Windows-specific notes |
-| [Kilo Code Support](docs/kilocode.md) | Kilo Code integration guide |
-| [Codex Setup](docs/codex.md) | Codex IDE installation and usage |
-| [OpenCode Setup](docs/opencode.md) | OpenCode IDE installation, oh-my-opencode config |
-| [FactoryAI Droid Setup](docs/factory.md) | FactoryAI Droid integration guide |
-| [Antigravity Setup](docs/antigravity.md) | Antigravity IDE integration guide |
-| [CodeBuddy Setup](docs/codebuddy.md) | CodeBuddy IDE integration guide |
-| [AdaL CLI Setup](docs/adal.md) | AdaL CLI / Sylph AI integration guide |
-| [Pi Agent Setup](docs/pi-agent.md) | Pi Agent integration guide |
-| [Copilot Setup](docs/copilot.md) | GitHub Copilot hooks integration guide |
-| [Mastra Setup](docs/mastra.md) | Mastra Code integration guide |
-| [BoxLite Setup](docs/boxlite.md) | BoxLite micro-VM sandbox integration guide |
+All platform setup guides and documentation are in the [docs/](./docs/) folder.
 
 
 ## Acknowledgments

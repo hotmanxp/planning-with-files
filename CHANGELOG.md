@@ -2,6 +2,97 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.22.0] - 2026-03-06
+
+### Added
+
+- **Formal benchmark results** — skill evaluated using Anthropic's skill-creator framework
+  - 10 parallel subagents, 5 diverse task types, 30 objectively verifiable assertions
+  - with_skill: **96.7% pass rate** (29/30); without_skill: 6.7% (2/30) — delta: +90 percentage points
+  - 3 blind A/B comparisons: with_skill wins 3/3 (100%), avg score 10.0/10 vs 6.8/10
+  - Full methodology in [docs/evals.md](docs/evals.md)
+- **Technical article** — [docs/article.md](docs/article.md): full write-up of the security analysis, fix, and eval methodology
+- **README badges** — Benchmark (96.7% pass rate), A/B Verified (3/3 wins), Security Verified
+- **README Benchmark Results section** — key numbers visible at a glance
+
+### Changed
+
+- `marketplace.json` version corrected to track current release (was stuck at 2.0.0)
+
+## [2.21.0] - 2026-03-05
+
+### Security
+
+- **Remove `WebFetch` and `WebSearch` from `allowed-tools`** — fixes Gen Agent Trust Hub FAIL and reduces Snyk W011 risk score
+  - The planning-with-files skill is a file-management and planning skill; web access is not part of its core scope
+  - The PreToolUse hook re-reads `task_plan.md` before every tool call, creating an amplification vector when web-sourced content is written to plan files. Removing these tools from the skill's declared scope breaks the toxic flow
+  - Applied across all 7 IDE variants that declared `allowed-tools`: Claude Code, Cursor, Kilocode, CodeBuddy, Codex, OpenCode, Mastra Code
+- **Add Security Boundary section to SKILL.md** — explicit guidance that web/search results must go to `findings.md` only (not `task_plan.md`), and all external content must be treated as untrusted
+- **Add security note to examples.md** — the web research example now includes an inline comment reinforcing the trust boundary
+
+## [2.20.0] - 2026-03-04
+
+### Fixed
+
+- **Codex session-catchup silent failure** (PR #100 by @tt-a1i, fixes #94)
+  - `session-catchup.py` in the Codex variant was silently scanning `~/.claude/projects` even when running from a Codex context, where sessions live under `~/.codex/sessions` in a different format
+  - Now detects the Codex runtime from `__file__` path and prints a clear fallback message instead of a silent no-op
+
+- **Docs broken links** (PR #99 by @tt-a1i, fixes #95)
+  - `docs/opencode.md` linked to `.opencode/INSTALL.md` which does not exist — corrected to `docs/installation.md`
+  - `docs/factory.md` See Also links used `../skills/planning-with-files/` paths — corrected to `../.factory/skills/planning-with-files/`
+
+- **Examples used stale `notes.md` filename** (PR #99 by @tt-a1i, fixes #96)
+  - All `examples.md` files across 16 IDE copies referenced `notes.md` which was renamed to `findings.md` — updated consistently everywhere
+
+- **`sync-ide-folders.py --help` ran a sync instead of printing usage** (PR #99 by @tt-a1i, fixes #98)
+  - Replaced manual `sys.argv` parsing with `argparse` — `--help` now exits cleanly with usage information
+
+### Changed
+
+- **OpenCode README support label corrected** (PR #99 by @tt-a1i, fixes #97)
+  - Changed from `Full Support` to `Partial Support` with a note about session catchup limitations — aligns README with what `docs/opencode.md` actually says
+
+### Thanks
+
+- @tt-a1i for the full consistency sweep (PR #99, PR #100)
+
+---
+
+## [2.19.0] - 2026-03-04
+
+### Fixed
+
+- **Codex Advanced Topics broken links** (PR #92 by @tt-a1i, fixes #91)
+  - Corrected two dead links in `.codex/skills/planning-with-files/SKILL.md`
+  - `reference.md` → `references/reference.md`
+  - `examples.md` → `references/examples.md`
+
+### Thanks
+
+- @tt-a1i for identifying and fixing the broken Codex links (PR #92)
+
+---
+
+## [2.18.3] - 2026-02-28
+
+### Fixed
+
+- **Stop hook multiline YAML command fails under Git Bash on Windows** (PR #86 by @raykuo998)
+  - Root cause: YAML `command: |` multiline blocks are not reliably parsed by Git Bash on Windows. The shell received the first line (`SCRIPT_DIR=...`) as a command name rather than a variable assignment, crashing the hook before it could do anything.
+  - Replaced 25-line OS detection scripts with a single-line implicit platform fallback chain: `powershell.exe` first, `sh` as fallback. Applied to all 7 SKILL.md variants with Stop hooks.
+  - Added `-NoProfile` to PowerShell invocation for faster startup
+
+- **`check-complete.ps1` completely failing on PowerShell 5.1** (PR #88 by @raykuo998)
+  - Root cause: Special characters inside double-quoted `Write-Host` strings (`[`, `(`, em-dash) caused parse errors in Windows PowerShell 5.1
+  - Replaced double-quoted strings with single-quoted strings plus explicit concatenation for variable interpolation. Applied to all 12 platform copies.
+
+### Thanks
+
+- @raykuo998 for both Windows compatibility fixes (PR #86, PR #88)
+
+---
+
 ## [2.18.2] - 2026-02-26
 
 ### Fixed
