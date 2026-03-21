@@ -248,8 +248,8 @@ async function saveConfigToFile(
           temperature: true,
           interleaved: true,
           limit: {
-            context: 256000,
-            output: 8192
+            context: 1048576,
+            output: 131072
           }
         },
         "qwen-plus": {
