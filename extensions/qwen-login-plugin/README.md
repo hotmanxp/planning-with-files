@@ -11,6 +11,13 @@
   - 将 qwen-code 的 OAuth token 配置到 opencode
   - 无需手动输入 API Key
 
+- 🔄 **自动刷新 Token** (新增)
+  - 检测 token 即将过期时自动刷新（提前 5 分钟）
+  - 使用 refresh_token 获取新的 access_token
+  - 自动保存刷新后的凭证
+  - 避免 API 调用时出现认证失败
+  - **后台定时检查**：每 4 分钟自动检查 token 状态，长时间运行也能保持 token 有效
+
 - ⚙️ **一键配置**
   - CLI 工具一键完成配置
   - 插件加载时自动配置
@@ -18,7 +25,7 @@
 
 - 🔒 **安全可靠**
   - 使用 qwen-code 的 OAuth token
-  - Token 过期检测
+  - Token 过期检测（5 分钟缓冲）
   - 敏感信息不硬编码
 
 - 📝 **完整的请求头**
@@ -148,9 +155,13 @@ opencode --model qwen/qwen-plus
 
 写入 `~/Library/Application Support/opencode/opencode.json`
 
-### 4. Token 过期检测
+### 4. Token 过期检测与自动刷新
 
-自动检查 `expiry_date`，过期则提示重新认证
+- **过期检测**: 检查 `expiry_date`，使用 5 分钟缓冲
+- **自动刷新**: Token 即将过期时自动调用 refresh_token 刷新
+- **持久化保存**: 刷新后的 token 自动保存到 `~/.qwen/oauth_creds.json`
+- **失败处理**: 刷新失败时返回 null，使用其他认证方式
+- **后台定时检查**: 插件启动后每 4 分钟自动检查一次 token 状态，确保长时间运行时 token 始终有效
 
 ## 🔧 开发模式
 
@@ -209,7 +220,9 @@ const endpoint = buildBaseUrl(creds.resource_url)
 | 函数 | 说明 |
 |------|------|
 | `readOAuthCredentials()` | 读取 OAuth 凭证 |
-| `isTokenValid(creds)` | 检查 token 是否过期 |
+| `isTokenValid(creds)` | 检查 token 是否过期（含 5 分钟缓冲） |
+| `refreshOAuthToken(refreshToken)` | 使用 refresh_token 刷新 token |
+| `getValidOAuthCredentials()` | 获取有效凭证（自动刷新） |
 | `getApiConfigFromOAuth(creds)` | 从 OAuth 生成 API 配置 |
 | `getQwenConfigFromOAuth()` | 获取 Qwen API 配置 |
 | `saveToOpencodeConfig(config)` | 保存到 opencode.json |
@@ -295,12 +308,15 @@ qwen login
 
 ### 2. "Qwen OAuth token has expired"
 
-**原因**: OAuth token 已过期
+**原因**: OAuth token 已过期且刷新失败
 
-**解决**: 重新认证:
+**解决**: 
+1. 插件会自动尝试刷新 token（提前 5 分钟）
+2. 如果刷新失败，重新认证:
 ```bash
 qwen login
 ```
+3. 检查网络连接是否正常
 
 ### 3. 配置未生效
 
@@ -326,9 +342,32 @@ qwen login
 
 MIT
 
+## 📝 更新日志
+
+### v1.3.0 (2026-03-22)
+
+**新增功能：**
+- 🔄 **自动 Token 刷新** - 使用 OAuth refresh_token 自动刷新过期的 access_token
+- ⏰ **后台定时检查** - 每 4 分钟自动检查 token 状态，确保长时间运行时 token 始终有效
+- 🛡️ **5 分钟缓冲机制** - 在 token 实际过期前 5 分钟触发刷新，避免 API 调用时认证失败
+- 💾 **持久化保存** - 刷新后的 token 自动保存到 `~/.qwen/oauth_creds.json`
+- 📊 **新增导出函数** - `refreshOAuthToken()` 和 `getValidOAuthCredentials()`
+
+**技术改进：**
+- 优化 token 过期检测逻辑，使用 5 分钟缓冲时间
+- 添加定时器 unref() 确保不阻止进程正常退出
+- 完善的错误处理和日志记录
+
+### v1.2.0 (2026-03-21)
+
+- 支持从 qwen-code OAuth 自动配置 opencode
+- 完整的请求头生成（User-Agent、x-dashscope-* 等）
+- CLI 工具一键配置
+
 ## 🔗 相关链接
 
 - [opencode 文档](https://opencode.ai/docs)
 - [通义千问 API](https://help.aliyun.com/zh/dashscope/)
 - [qwen-code](https://github.com/QwenLM/qwen-code)
+- [更新日志](#-更新日志)
 - [Qwen Portal](https://portal.qwen.ai)

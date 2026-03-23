@@ -40,6 +40,22 @@ export const DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/
 export const QWEN_CODE_VERSION = "unknown"
 
 /**
+ * Qwen OAuth token refresh endpoint
+ */
+const QWEN_TOKEN_ENDPOINT = "https://oauth.qwen.ai/oauth/token"
+
+/**
+ * Token refresh response interface
+ */
+export interface TokenRefreshResponse {
+  access_token: string
+  token_type: string
+  refresh_token: string
+  expires_in: number
+  resource_url: string
+}
+
+/**
  * 获取当前平台信息
  */
 export function getPlatformInfo() {
@@ -108,7 +124,7 @@ export function buildBaseUrl(resourceUrl: string): string {
 /**
  * 获取 qwen-code OAuth 凭证文件路径
  */
-function getOAuthCredsPath(): string {
+export function getOAuthCredsPath(): string {
   return join(homedir(), ".qwen", "oauth_creds.json")
 }
 
@@ -129,14 +145,112 @@ export async function readOAuthCredentials(): Promise<OAuthCredentials | null> {
 }
 
 /**
- * 检查 OAuth token 是否过期
+ * Check OAuth token is expired
  * 
- * @param creds OAuth 凭证
- * @returns boolean - 是否有效（未过期）
+ * @param creds OAuth credentials
+ * @returns boolean - is valid (not expired)
  */
 export function isTokenValid(creds: OAuthCredentials): boolean {
   const now = Date.now()
-  return creds.expiry_date > now
+  // Use 5-minute buffer like Gemini CLI to refresh before actual expiry
+  const bufferMs = 5 * 60 * 1000 // 5 minutes
+  return creds.expiry_date > now + bufferMs
+}
+
+/**
+ * Refresh OAuth token using refresh_token
+ * 
+ * @param refreshToken - The refresh token
+ * @returns New OAuth credentials, or null if refresh failed
+ */
+export async function refreshOAuthToken(
+  refreshToken: string
+): Promise<OAuthCredentials | null> {
+  try {
+    const response = await fetch(QWEN_TOKEN_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        grant_type: "refresh_token",
+        refresh_token: refreshToken,
+      }),
+    })
+
+    if (!response.ok) {
+      console.error(
+        "Token refresh failed:",
+        response.status,
+        response.statusText
+      )
+      return null
+    }
+
+    const data = (await response.json()) as TokenRefreshResponse
+
+    // Convert to OAuthCredentials format
+    const now = Date.now()
+    const expiryMs = data.expires_in * 1000
+
+    return {
+      access_token: data.access_token,
+      token_type: data.token_type,
+      refresh_token: data.refresh_token,
+      resource_url: data.resource_url,
+      expiry_date: now + expiryMs,
+    }
+  } catch (error) {
+    console.error("Token refresh error:", error)
+    return null
+  }
+}
+
+/**
+ * Get valid OAuth credentials, refreshing if necessary
+ * 
+ * @returns Valid OAuth credentials, or null if not available
+ */
+export async function getValidOAuthCredentials(): Promise<OAuthCredentials | null> {
+  // Read current credentials
+  let creds = await readOAuthCredentials()
+
+  if (!creds) {
+    return null
+  }
+
+  // Check if token is still valid (with 5-min buffer)
+  if (isTokenValid(creds)) {
+    return creds
+  }
+
+  // Token is expired or about to expire, try to refresh
+  if (creds.refresh_token) {
+    console.log("Refreshing expired OAuth token...")
+    const refreshedCreds = await refreshOAuthToken(creds.refresh_token)
+
+    if (refreshedCreds) {
+      // Save refreshed credentials
+      try {
+        const credsPath = getOAuthCredsPath()
+        const { mkdir } = await import("node:fs/promises")
+        await mkdir(join(credsPath, ".."), { recursive: true })
+        await writeFile(credsPath, JSON.stringify(refreshedCreds, null, 2), "utf-8")
+        console.log("OAuth token refreshed successfully")
+        return refreshedCreds
+      } catch (error) {
+        console.error("Failed to save refreshed credentials:", error)
+        // Return refreshed creds anyway even if save failed
+        return refreshedCreds
+      }
+    } else {
+      console.error("Failed to refresh OAuth token")
+      return null
+    }
+  }
+
+  // No refresh token available, credentials are invalid
+  return null
 }
 
 /**
