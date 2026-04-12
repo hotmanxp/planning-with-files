@@ -1,127 +1,73 @@
 ---
 name: planning-with-files
-description: Implements Manus-style file-based planning to organize and track progress on complex tasks. Creates task_plan.md, findings.md, and progress.md. Use when asked to plan out, break down, or organize a multi-step project, research task, or any work requiring >5 tool calls. Supports automatic session recovery after /clear.
-license: MIT
+description: Manus-style file-based planning for complex tasks. Use when user asks to plan, break down, or organize multi-step projects. Creates task_plan.md, findings.md, progress.md in .agent_working_dir/<taskName>_<date>. Supports session recovery.
 ---
 
 # Planning with Files
 
-Work like Manus: Use persistent markdown files as your "working memory on disk."
+Filesystem as persistent memory — context window is volatile RAM.
 
-## Core Principle
+## Task Working Directory
 
-```
-Context Window = RAM (volatile, limited)
-Filesystem = Disk (persistent, unlimited)
+All task files go in: `.agent_working_dir/<taskName>_<date>/`
 
-→ Anything important gets written to disk.
-```
+Example: `./.agent_working_dir/fix-login-bug_2026-04-12/`
 
-## Quick Start
+## When to Use
 
-Before ANY complex task, create these three files:
+**Use for:** Multi-step tasks (3+ phases), research, building projects, 5+ tool calls
+**Skip for:** Simple questions, single-file edits, quick lookups
 
-1. **task_plan.md** — Track phases and progress
-2. **findings.md** — Store research and discoveries
-3. **progress.md** — Session log and test results
+## 3 Core Files
 
-See references/ for starting templates.
+| File | Purpose | Update Frequency |
+|------|---------|------------------|
+| `task_plan.md` | Phase tracking, decisions | After each phase |
+| `findings.md` | Research, discoveries | After any discovery |
+| `progress.md` | Session log, test results | Throughout |
 
-## File Purposes
+Templates: `references/task_plan.md`, `references/findings.md`, `references/progress.md`
 
-| File | Purpose | When to Update |
-|------|---------|----------------|
-| `task_plan.md` | Phases, progress, decisions | After each phase |
-| `findings.md` | Research, discoveries | After ANY discovery |
-| `progress.md` | Session log, test results | Throughout session |
+## The 2-Action Rule
 
-## Critical Rules
+After every **2 view/search operations**, immediately save key findings to files. Prevents loss of visual/multimodal info.
 
-### 1. Create Plan First
-Never start a complex task without `task_plan.md`. Non-negotiable.
-
-### 2. The 2-Action Rule
-> "After every 2 view/browser/search operations, IMMEDIATELY save key findings to text files."
-
-This prevents visual/multimodal information from being lost.
-
-### 3. Read Before Decide
-Before major decisions, read the plan file. This keeps goals in your attention window.
-
-### 4. Update After Act
-After completing any phase:
-- Mark phase status: `in_progress` → `complete`
-- Log any errors encountered
-- Note files created/modified
-
-### 5. Log ALL Errors
-Every error goes in the plan file. This builds knowledge and prevents repetition.
-
-### 6. Never Repeat Failures
-```
-if action_failed:
-    next_action != same_action
-```
-Track what you tried. Mutate the approach.
-
-## The 3-Strike Error Protocol
+## Error Recovery: 3-Strike Protocol
 
 ```
-ATTEMPT 1: Diagnose & Fix
-  → Read error carefully
-  → Identify root cause
-  → Apply targeted fix
+ATTEMPT 1: Diagnose → Fix targeted
+ATTEMPT 2: Different method/tool
+ATTEMPT 3: Rethink approach, update plan
 
-ATTEMPT 2: Alternative Approach
-  → Same error? Try different method
-  → Different tool? Different library?
-  → NEVER repeat exact same failing action
-
-ATTEMPT 3: Broader Rethink
-  → Question assumptions
-  → Search for solutions
-  → Consider updating the plan
-
-AFTER 3 FAILURES: Escalate to User
-  → Explain what you tried
-  → Share the specific error
-  → Ask for guidance
+AFTER 3: Escalate to user with error log
 ```
 
-## When to Use This Pattern
+**Rule:** Never repeat a failed action exactly.
 
-**Use for:**
-- Multi-step tasks (3+ steps)
-- Research tasks
-- Building/creating projects
-- Tasks spanning many tool calls
+## Workflow
 
-**Skip for:**
-- Simple questions
-- Single-file edits
-- Quick lookups
+1. **Start:** Create `task_plan.md` with phases
+2. **Before decisions:** Read `task_plan.md` to refresh goals
+3. **After discoveries:** Write to `findings.md`
+4. **After each phase:** Mark `task_plan.md` phase complete
+5. **Throughout:** Log to `progress.md`
+6. **Never hide errors —** log everything to plan file
 
-## Templates
+## Read-Before-Decide Pattern
 
-- references/task_plan.md — Phase tracking template
-- references/findings.md — Research storage template
-- references/progress.md — Session logging template
-
-## Advanced Topics
-
-- **Manus Principles:** See references.md for complete context engineering patterns
-- **Real Examples:** See examples.md for practical implementations
+After ~10+ tool calls, re-read `task_plan.md` before major decisions. This pushes goals back into attention window.
 
 ## Anti-Patterns
 
-| Don't | Do Instead |
-|-------|------------|
-| State goals once and forget | Re-read plan before decisions |
-| Hide errors and retry silently | Log errors to plan file |
-| Stuff everything in context | Store large content in files |
-| Start executing immediately | Create plan file FIRST |
-| Repeat failed actions | Track attempts, mutate approach |
+| Don't | Do |
+|-------|----|
+| Start without plan | Create `task_plan.md` first |
+| Retry same failed action | Log error, try different approach |
+| Hide errors | Log all errors to plan file |
+| Lose visual info | Save after every 2 view ops |
+| Forget goals | Re-read plan before decisions |
 
----
+## References
 
-**This pattern is why Manus went from launch to $2B acquisition in 8 months.**
+- Manus principles: `references/references.md`
+- Full examples: `references/examples.md`
